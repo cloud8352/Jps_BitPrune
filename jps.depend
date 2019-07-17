@@ -1,0 +1,53 @@
+# depslib dependency file v1.0
+1563010022 source:d:\space\space\c\cpp\jps\astar.cpp
+	"astar.h"
+
+1562130494 d:\space\space\c\cpp\jps\node.h
+	<stdio.h>
+	<stdlib.h>
+	<assert.h>
+	<vector>
+
+1563158157 source:d:\space\space\c\cpp\jps\jps.cpp
+	"jps.h"
+
+1563010163 d:\space\space\c\cpp\jps\astar.h
+	<iostream>
+	<windows.h>
+	<vector>
+	<cmath>
+
+1563165528 source:d:\space\space\c\cpp\jps\main.cpp
+	<iostream>
+	"astar.h"
+	"jps.h"
+
+1563158165 d:\space\space\c\cpp\jps\jps.h
+	<iostream>
+	<windows.h>
+	<vector>
+	<cmath>
+
+1563010022 source:d:\space\space\c\cpp\jps_bitprune\astar.cpp
+	"astar.h"
+
+1563010163 d:\space\space\c\cpp\jps_bitprune\astar.h
+	<iostream>
+	<windows.h>
+	<vector>
+	<cmath>
+
+1563372839 source:d:\space\space\c\cpp\jps_bitprune\main.cpp
+	<iostream>
+	"astar.h"
+	"jps.h"
+
+1563352851 d:\space\space\c\cpp\jps_bitprune\jps.h
+	<iostream>
+	<windows.h>
+	<vector>
+	<cmath>
+
+1563373802 source:d:\space\space\c\cpp\jps_bitprune\jps.cpp
+	"jps.h"
+
