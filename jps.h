@@ -10,46 +10,46 @@ class Jps
 {
 public:
 
-    //·½ÏòÃ¶¾Ù
+    //æ–¹å‘æšä¸¾
     enum Direct{
         p_up,p_down,p_left,p_right,p_leftup,p_leftdown,p_rightup,p_rightdown
     };
 
-    //¸¨ÖúµØÍ¼½Úµã
+    //è¾…åŠ©åœ°å›¾èŠ‚ç‚¹
     struct PathNode{
-        int row;//ĞĞ
+        int row;//è¡Œ
         int col;
         int g,h,f;
         void GetF(){
             f = g + h;
         }
         int     value;//
-        bool    isroute;//ÊÇ·ñÊÇ×î¶ÌÂ·¾¶ÖĞµÄÒ»µã
-        bool    isfind;//ÊÇ·ñ×ß¹ı
+        bool    isroute;//æ˜¯å¦æ˜¯æœ€çŸ­è·¯å¾„ä¸­çš„ä¸€ç‚¹
+        bool    isfind;//æ˜¯å¦èµ°è¿‡
         bool    inopen;
-        bool    isnull;//ÊÇ·ñÊÇ¿Õ½Úµã
-        PathNode* parent;//¸¸½Úµã
-        vector<PathNode*> keyNeighbours; //¹Ø¼üÁÚ¾Ó½Úµã
+        bool    isnull;//æ˜¯å¦æ˜¯ç©ºèŠ‚ç‚¹
+        PathNode* parent;//çˆ¶èŠ‚ç‚¹
+        vector<PathNode*> keyNeighbours; //å…³é”®é‚»å±…èŠ‚ç‚¹
     };
 
     int height,width;
 
-    PathNode*** pathMap;//¸¨ÖúµØÍ¼
+    PathNode*** pathMap;//è¾…åŠ©åœ°å›¾
     PathNode startNode;
     PathNode endNode;
 
-    PathNode nullNode;//¿Õ½Úµã
+    PathNode nullNode;//ç©ºèŠ‚ç‚¹
 
 
-    //¼ÆËãÁ½µãÖ±Ïß¾àÀë
+    //è®¡ç®—ä¸¤ç‚¹ç›´çº¿è·ç¦»
     int GetDis(const PathNode& startNode,const PathNode& endNode){
-        int dis = sqrt( pow( (endNode.col -startNode.col),2) +pow( (endNode.row -startNode.row),2) )*10;//pow´Î·½º¯Êı
+        int dis = sqrt( pow( (endNode.col -startNode.col),2) +pow( (endNode.row -startNode.row),2) )*10;//powæ¬¡æ–¹å‡½æ•°
         return dis;
     }
-    //¼ÆËãhÖµ
+    //è®¡ç®—hå€¼
     int GetH(const PathNode& startNode,const PathNode& endNode){
-        int x = abs(startNode.col - endNode.col);//È¡Ë®Æ½¾àÀë²î¾ø¶ÔÖµ
-        int y = abs(startNode.row - endNode.row);//È¡ÊúÖ±¾àÀë²î¾ø¶ÔÖµ
+        int x = abs(startNode.col - endNode.col);//å–æ°´å¹³è·ç¦»å·®ç»å¯¹å€¼
+        int y = abs(startNode.row - endNode.row);//å–ç«–ç›´è·ç¦»å·®ç»å¯¹å€¼
         return (x + y)*10;
     }
 
@@ -60,6 +60,6 @@ public:
     PathNode JumpOblique(PathNode*** _pathMap,PathNode currenNode,Direct dir);
     vector<PathNode> FindPath(PathNode _startNode,PathNode _endNode);
 
-    PathNode JumpStraightBit(PathNode*** _pathMap,PathNode currenNode,Direct dir);//ÀûÓÃÎ»ÔËËãÓÅ»¯ºóµÄ£¬Ö±ÏßÑ°Ìøµã
+    PathNode JumpStraightBit(PathNode*** _pathMap,PathNode currenNode,Direct dir);//åˆ©ç”¨ä½è¿ç®—ä¼˜åŒ–åçš„ï¼Œç›´çº¿å¯»è·³ç‚¹
 
 };

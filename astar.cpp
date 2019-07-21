@@ -1,18 +1,18 @@
 #include"astar.h"
 
-//³õÊ¼»¯
+//åˆå§‹åŒ–
 void Astar::Init(int **_map,int height,int width,MyPoint _beginPoint,MyPoint _endPoint){
     map = _map;
     ROW = height;
     COL = width;
 
-    VerticalDist = 10; //Ã¿¸ñµ½ÏàÁÚ¸ñÖ±Ïß¾àÀë10
-    ObliqueDist = 14;  //Ã¿¸ñµ½ÏàÁÚ¸ñĞ±Ïß¾àÀë14
+    VerticalDist = 10; //æ¯æ ¼åˆ°ç›¸é‚»æ ¼ç›´çº¿è·ç¦»10
+    ObliqueDist = 14;  //æ¯æ ¼åˆ°ç›¸é‚»æ ¼æ–œçº¿è·ç¦»14
 
     beginPoint = _beginPoint;
     endPoint = _endPoint;
 
-    //½¨Á¢¸¨ÖúµØÍ¼
+    //å»ºç«‹è¾…åŠ©åœ°å›¾
     pathMap = new PathNode*[ROW];
     for(int i=0;i<ROW;i++){
         pathMap[i] = new PathNode[COL];
@@ -23,30 +23,30 @@ void Astar::Init(int **_map,int height,int width,MyPoint _beginPoint,MyPoint _en
         }
     }
 
-    beginTreeNode = new MyTreeNode; //¿ª·ÅÁĞ±íµÄÆğÊ¼½Úµã
+    beginTreeNode = new MyTreeNode; //å¼€æ”¾åˆ—è¡¨çš„èµ·å§‹èŠ‚ç‚¹
     memset(beginTreeNode, 0, sizeof(MyTreeNode));
-    //ÏòÊ÷ÖĞ¼ÓÈëÆğµã
+    //å‘æ ‘ä¸­åŠ å…¥èµ·ç‚¹
     beginTreeNode->pos = beginPoint;
-    //±ê¼Ç×ß¹ı
+    //æ ‡è®°èµ°è¿‡
     pathMap[beginTreeNode->pos.row][beginTreeNode->pos.col].isfind = true;
 
-    pTemp = beginTreeNode;//³õÊ¼»¯µ±Ç°Ê÷½ÚµãÎªÆğÊ¼½Úµã
-    pTempChild = NULL;//Ì½Â·µã
+    pTemp = beginTreeNode;//åˆå§‹åŒ–å½“å‰æ ‘èŠ‚ç‚¹ä¸ºèµ·å§‹èŠ‚ç‚¹
+    pTempChild = NULL;//æ¢è·¯ç‚¹
 }
 
-//³õÊ¼»¯ºó£¬»ñÈ¡Â·¾¶
+//åˆå§‹åŒ–åï¼Œè·å–è·¯å¾„
 void Astar::FindPath(){
     while(1){
-        //ÕÒ³öÌ½Â·µãÖÜÎ§8¸ö¿ÉĞĞµã£¬±£´æµ½¿ª·ÅÁĞ±í
+        //æ‰¾å‡ºæ¢è·¯ç‚¹å‘¨å›´8ä¸ªå¯è¡Œç‚¹ï¼Œä¿å­˜åˆ°å¼€æ”¾åˆ—è¡¨
         for(int i=0;i<8;i++){
-            bool canWalkObliquely = true;//Ğ±¶Ô½ÇÊÇ·ñ¿ÉĞĞ×ß
+            bool canWalkObliquely = true;//æ–œå¯¹è§’æ˜¯å¦å¯è¡Œèµ°
             pTempChild = new MyTreeNode;
             memset(pTempChild, 0, sizeof(MyTreeNode));
             pTempChild->pos = pTemp->pos;
             switch(i)
             {
             case p_up:
-                pTempChild->pos.row = pTemp->pos.row -1;//Ö»ÓĞĞĞ¼õ1
+                pTempChild->pos.row = pTemp->pos.row -1;//åªæœ‰è¡Œå‡1
                 pTempChild->pos.col = pTemp->pos.col;
                 pTempChild->pos.g = pTemp->pos.g + VerticalDist;
                 break;
@@ -56,19 +56,19 @@ void Astar::FindPath(){
                 pTempChild->pos.g = pTemp->pos.g + VerticalDist;
                 break;
             case p_left:
-                pTempChild->pos.row = pTemp->pos.row;//ĞĞ²»±ä£¬ÁĞ¼õ1
+                pTempChild->pos.row = pTemp->pos.row;//è¡Œä¸å˜ï¼Œåˆ—å‡1
                 pTempChild->pos.col = pTemp->pos.col -1;
                 pTempChild->pos.g = pTemp->pos.g + VerticalDist;
                 break;
             case p_right:
-                pTempChild->pos.row = pTemp->pos.row;//ĞĞ²»±ä£¬ÁĞ¼Ó1
+                pTempChild->pos.row = pTemp->pos.row;//è¡Œä¸å˜ï¼Œåˆ—åŠ 1
                 pTempChild->pos.col = pTemp->pos.col +1;
                 pTempChild->pos.g = pTemp->pos.g + VerticalDist;
                 break;
             case p_leftup:
-                if(isBarrier(pTemp->pos.row -1, pTemp->pos.col, pathMap) ||//ÅĞ¶Ïµ±Ç°µãÉÏ±ßµãÊÇ·ñÎªÕÏ°­
-                    isBarrier(pTemp->pos.row, pTemp->pos.col -1, pathMap)   //ÅĞ¶Ïµ±Ç°µã×ó±ßµãÊÇ·ñÎªÕÏ°­
-                   ){//ÅĞ¶ÏĞ±½ÇÊÇ·ñ¿É×ß
+                if(isBarrier(pTemp->pos.row -1, pTemp->pos.col, pathMap) ||//åˆ¤æ–­å½“å‰ç‚¹ä¸Šè¾¹ç‚¹æ˜¯å¦ä¸ºéšœç¢
+                    isBarrier(pTemp->pos.row, pTemp->pos.col -1, pathMap)   //åˆ¤æ–­å½“å‰ç‚¹å·¦è¾¹ç‚¹æ˜¯å¦ä¸ºéšœç¢
+                   ){//åˆ¤æ–­æ–œè§’æ˜¯å¦å¯èµ°
                     canWalkObliquely = false;
                     break;
                    }
@@ -77,9 +77,9 @@ void Astar::FindPath(){
                 pTempChild->pos.g = pTemp->pos.g + ObliqueDist;
                 break;
             case p_leftdown:
-                if(isBarrier(pTemp->pos.row +1, pTemp->pos.col, pathMap) ||//ÅĞ¶Ïµ±Ç°µãÏÂ±ßµãÊÇ·ñÎªÕÏ°­
-                    isBarrier(pTemp->pos.row, pTemp->pos.col -1, pathMap)   //ÅĞ¶Ïµ±Ç°µã×ó±ßµãÊÇ·ñÎªÕÏ°­
-                   ){//ÅĞ¶ÏĞ±½ÇÊÇ·ñ¿É×ß
+                if(isBarrier(pTemp->pos.row +1, pTemp->pos.col, pathMap) ||//åˆ¤æ–­å½“å‰ç‚¹ä¸‹è¾¹ç‚¹æ˜¯å¦ä¸ºéšœç¢
+                    isBarrier(pTemp->pos.row, pTemp->pos.col -1, pathMap)   //åˆ¤æ–­å½“å‰ç‚¹å·¦è¾¹ç‚¹æ˜¯å¦ä¸ºéšœç¢
+                   ){//åˆ¤æ–­æ–œè§’æ˜¯å¦å¯èµ°
                     canWalkObliquely = false;
                     break;
                    }
@@ -88,9 +88,9 @@ void Astar::FindPath(){
                 pTempChild->pos.g = pTemp->pos.g + ObliqueDist;
                 break;
             case p_rightup:
-                if(isBarrier(pTemp->pos.row -1, pTemp->pos.col, pathMap) ||//ÅĞ¶Ïµ±Ç°µãÉÏ±ßµãÊÇ·ñÎªÕÏ°­
-                    isBarrier(pTemp->pos.row, pTemp->pos.col +1, pathMap)   //ÅĞ¶Ïµ±Ç°µãÓÒ±ßµãÊÇ·ñÎªÕÏ°­
-                   ){//ÅĞ¶ÏĞ±½ÇÊÇ·ñ¿É×ß
+                if(isBarrier(pTemp->pos.row -1, pTemp->pos.col, pathMap) ||//åˆ¤æ–­å½“å‰ç‚¹ä¸Šè¾¹ç‚¹æ˜¯å¦ä¸ºéšœç¢
+                    isBarrier(pTemp->pos.row, pTemp->pos.col +1, pathMap)   //åˆ¤æ–­å½“å‰ç‚¹å³è¾¹ç‚¹æ˜¯å¦ä¸ºéšœç¢
+                   ){//åˆ¤æ–­æ–œè§’æ˜¯å¦å¯èµ°
                     canWalkObliquely = false;
                     break;
                    }
@@ -99,9 +99,9 @@ void Astar::FindPath(){
                 pTempChild->pos.g = pTemp->pos.g + ObliqueDist;
                 break;
             case p_rightdown:
-                if(isBarrier(pTemp->pos.row +1, pTemp->pos.col, pathMap) ||//ÅĞ¶Ïµ±Ç°µãÏÂ±ßµãÊÇ·ñÎªÕÏ°­
-                    isBarrier(pTemp->pos.row, pTemp->pos.col +1, pathMap)   //ÅĞ¶Ïµ±Ç°µãÓÒ±ßµãÊÇ·ñÎªÕÏ°­
-                   ){//ÅĞ¶ÏĞ±½ÇÊÇ·ñ¿É×ß
+                if(isBarrier(pTemp->pos.row +1, pTemp->pos.col, pathMap) ||//åˆ¤æ–­å½“å‰ç‚¹ä¸‹è¾¹ç‚¹æ˜¯å¦ä¸ºéšœç¢
+                    isBarrier(pTemp->pos.row, pTemp->pos.col +1, pathMap)   //åˆ¤æ–­å½“å‰ç‚¹å³è¾¹ç‚¹æ˜¯å¦ä¸ºéšœç¢
+                   ){//åˆ¤æ–­æ–œè§’æ˜¯å¦å¯èµ°
                     canWalkObliquely = false;
                     break;
                    }
@@ -110,11 +110,11 @@ void Astar::FindPath(){
                 pTempChild->pos.g = pTemp->pos.g + ObliqueDist;
                 break;
             }
-            //ÄÜ×ß¾Í¼ÓÈëµ±Ç°½ÚµãµÄ×Ó½Úµã×é£¬²¢´æÈë¿ª·ÅÊ÷openTree
-            if(isRoad(pTempChild->pos, pathMap) && //ÊÇ·ñ¿ÉĞĞ
-               canWalkObliquely //¶Ô½ÇÊÇ·ñ¿É×ß
+            //èƒ½èµ°å°±åŠ å…¥å½“å‰èŠ‚ç‚¹çš„å­èŠ‚ç‚¹ç»„ï¼Œå¹¶å­˜å…¥å¼€æ”¾æ ‘openTree
+            if(isRoad(pTempChild->pos, pathMap) && //æ˜¯å¦å¯è¡Œ
+               canWalkObliquely //å¯¹è§’æ˜¯å¦å¯èµ°
                ){
-                //¼ì²éÊÇ·ñÒÑ¾­ÔÚ¿ª·ÅÁĞ±íÖĞ
+                //æ£€æŸ¥æ˜¯å¦å·²ç»åœ¨å¼€æ”¾åˆ—è¡¨ä¸­
                 bool isInOpenLst = false;
                 for(it=openTree.begin();it != openTree.end();it++){
                     if( (*it)->pos.row == pTempChild->pos.row &&
@@ -126,29 +126,29 @@ void Astar::FindPath(){
                 }
                 if(isInOpenLst){
                     if( (*it)->pos.g > pTempChild->pos.g){
-                        (*it)->pos.g = pTempChild->pos.g;//Èç¹ûµ±Ç°µãgÖµ´óÓÚ¿ª·ÅÁĞ±íÖĞ¶ÔÓ³µãµÄgÖµ£¬¾ÍĞŞ¸Äg
+                        (*it)->pos.g = pTempChild->pos.g;//å¦‚æœå½“å‰ç‚¹gå€¼å¤§äºå¼€æ”¾åˆ—è¡¨ä¸­å¯¹æ˜ ç‚¹çš„gå€¼ï¼Œå°±ä¿®æ”¹g
                         (*it)->pos.GetF();
                         (*it)->parent = pTemp;
                         pTemp->child.push_back(pTempChild);
                     }
                 }
                 if(isInOpenLst == false){
-                    //¼ÆËãhÖµ
+                    //è®¡ç®—hå€¼
                     pTempChild->pos.h = GetH(pTempChild->pos,endPoint);
-                    //¼ÆËãfÖµ
+                    //è®¡ç®—få€¼
                     pTempChild->pos.GetF();
-                    //ÈëÊ÷
+                    //å…¥æ ‘
                     pTemp->child.push_back(pTempChild);
                     pTempChild->parent = pTemp;
-                    //´æÈëÊı×é
+                    //å­˜å…¥æ•°ç»„
                     openTree.push_back(pTempChild);
 
                 }
             }
 
-        }//--end--ÕÒ³öÌ½Â·µãÖÜÎ§8¸ö¿ÉĞĞµã£¬±£´æµ½¿ª·ÅÁĞ±í
+        }//--end--æ‰¾å‡ºæ¢è·¯ç‚¹å‘¨å›´8ä¸ªå¯è¡Œç‚¹ï¼Œä¿å­˜åˆ°å¼€æ”¾åˆ—è¡¨
 
-        //ÕÒ³öµ±Ç°µãÖÜÎ§×îĞ¡fÖµ¿ÉĞĞµã
+        //æ‰¾å‡ºå½“å‰ç‚¹å‘¨å›´æœ€å°få€¼å¯è¡Œç‚¹
         it = openTree.begin();
         minF_Iter = it;
         for(it = openTree.begin();it != openTree.end();it++){
@@ -157,25 +157,25 @@ void Astar::FindPath(){
             }
         }
 
-        //»»²ã
+        //æ¢å±‚
         if((*minF_Iter)->pos.row == endPoint.row &&
            (*minF_Iter)->pos.col == endPoint.col
            )
             break;
         pTemp = (*minF_Iter);
 
-        //±ê¼Ç×ß¹ı
+        //æ ‡è®°èµ°è¿‡
         pathMap[pTemp->pos.row][pTemp->pos.col].isfind = true;
 
-        //°Ñ×îĞ¡fÖµ¿ÉĞĞµã´ÓÊı×é(open_list)ÖĞÉ¾³ı
+        //æŠŠæœ€å°få€¼å¯è¡Œç‚¹ä»æ•°ç»„(open_list)ä¸­åˆ é™¤
         openTree.erase(minF_Iter);
 
         if(openTree.size() == 0) break;
 
-    }//end--while(1)Ñ°Â·
+    }//end--while(1)å¯»è·¯
 
-    //Â·¾¶»ØËİ
-    cout<<"×î¶ÌÂ·¾¶£º";
+    //è·¯å¾„å›æº¯
+    cout<<"æœ€çŸ­è·¯å¾„ï¼š";
     MyTreeNode* node_line = (*minF_Iter);
     while(1){
         pathMap[node_line->pos.row][node_line->pos.col].isroute = true;
@@ -185,7 +185,7 @@ void Astar::FindPath(){
 
     }
     cout<<endl;
-    //´òÓ¡Â·ÏßµØÍ¼
+    //æ‰“å°è·¯çº¿åœ°å›¾
     for(int i=0;i < ROW;i++){
         for(int j=0;j < COL;j++){
             if(pathMap[i][j].isroute)

@@ -1,26 +1,26 @@
-#include <iostream> //"#"´ú±íÔ¤´¦ÀíÃüÁî
+#include <iostream> //"#"ä»£è¡¨é¢„å¤„ç†å‘½ä»¤
 #include"astar.h"
 #include"jps.h"
-using namespace std;    //Ê¹ÓÃstandardÃüÃû¿Õ¼ä
+using namespace std;    //ä½¿ç”¨standardå‘½åç©ºé—´
 
 
 int main(){
-    //ĞĞrow£¬ÁĞcol
+    //è¡Œrowï¼Œåˆ—col
     int height = 8;
     int width = 15;
     int test_map[height][width] = {
-        {0,0,1,1,0,0,0,0,0,0,0,1,1,0,1},//0
-        {0,0,1,1,0,0,0,0,0,0,0,0,0,0,1},//1
-        {0,0,1,1,0,0,1,1,0,0,0,1,1,0,0},//2
-        {0,0,1,1,0,0,1,1,0,0,1,1,0,0,0},//3
-        {0,0,1,1,0,0,1,1,0,0,0,0,1,1,0},//4
-        {0,0,0,0,0,0,1,1,0,0,1,0,1,0,0},//5
-        {0,0,0,0,0,0,1,1,0,0,0,0,0,0,0},//6
-        {0,0,1,1,0,0,1,1,0,0,0,0,0,0,0}//7
+        {1,0,1,1,0,0,0,0,0,0,0,1,1,0,1},//0
+        {0,0,0,1,0,0,0,0,0,0,0,0,0,0,1},//1
+        {0,0,0,1,0,0,1,1,0,0,0,1,1,0,0},//2
+        {0,0,0,1,0,0,1,1,0,0,1,1,0,0,0},//3
+        {0,0,0,1,0,0,1,1,0,1,0,0,1,1,0},//4
+        {0,0,0,0,0,1,1,1,0,0,0,0,0,0,0},//5
+        {0,0,0,0,0,0,1,0,0,0,0,0,0,0,0},//6
+        {1,0,1,0,0,1,1,1,0,0,0,0,0,0,0}//7
 
     };
 
-    //µØÍ¼×ª»»³É¶şÎ¬Ö¸Õë
+    //åœ°å›¾è½¬æ¢æˆäºŒç»´æŒ‡é’ˆ
     int **a;
     a = new int* [height];
     for(int i=0;i < height;i++){
@@ -82,7 +82,8 @@ int main(){
 
     jps.FindPath(jStart, jEnd);
     cout<<"-----------------------------"<<"\n";
-    jumpNode = jps.JumpStraightBit(jps.pathMap,jps.startNode,Jps::p_right);
+    jumpNode = jps.JumpStraightBit(jps.pathMap,jps.startNode,Jps::p_down);
+    if(false == jumpNode.isnull)
     cout<<"jumpNode.row,jumpNode.col:"<<jumpNode.row<<","<<jumpNode.col<<endl;
 
     system("pause");

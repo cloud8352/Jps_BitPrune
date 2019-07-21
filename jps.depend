@@ -37,7 +37,7 @@
 	<vector>
 	<cmath>
 
-1563372839 source:d:\space\space\c\cpp\jps_bitprune\main.cpp
+1563694955 source:d:\space\space\c\cpp\jps_bitprune\main.cpp
 	<iostream>
 	"astar.h"
 	"jps.h"
@@ -48,6 +48,6 @@
 	<vector>
 	<cmath>
 
-1563373802 source:d:\space\space\c\cpp\jps_bitprune\jps.cpp
+1563694901 source:d:\space\space\c\cpp\jps_bitprune\jps.cpp
 	"jps.h"
 

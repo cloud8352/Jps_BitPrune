@@ -10,81 +10,81 @@ class Astar
 {
 public:
     struct MyPoint{
-        int row;//ĞĞ
+        int row;//è¡Œ
         int col;
         int g,h,f;
         void GetF(){
             f = g + h;
         }
     };
-    //·½ÏòÃ¶¾Ù
+    //æ–¹å‘æšä¸¾
     enum Direct{
         p_up,p_down,p_left,p_right,p_leftup,p_leftdown,p_rightup,p_rightdown
     };
-    //¸¨ÖúµØÍ¼½Úµã
+    //è¾…åŠ©åœ°å›¾èŠ‚ç‚¹
     struct PathNode{
         int     value;//
-        bool    isroute;//ÊÇ·ñÊÇ×î¶ÌÂ·¾¶ÖĞµÄÒ»µã
-        bool    isfind;//ÊÇ·ñ×ß¹ı
+        bool    isroute;//æ˜¯å¦æ˜¯æœ€çŸ­è·¯å¾„ä¸­çš„ä¸€ç‚¹
+        bool    isfind;//æ˜¯å¦èµ°è¿‡
     };
-    //Ê÷µÄ½ÚµãÀàĞÍ
+    //æ ‘çš„èŠ‚ç‚¹ç±»å‹
     struct MyTreeNode{
         MyPoint pos;
         MyTreeNode* parent;
-        vector<MyTreeNode*> child;//ÓÃÓÚ´æÈë¸ÃµãµÄÖÜÎ§¿ÉĞĞµã£¿¡¢¡¢¡¢¡¢¡¢¡¢¡¢¡¢
+        vector<MyTreeNode*> child;//ç”¨äºå­˜å…¥è¯¥ç‚¹çš„å‘¨å›´å¯è¡Œç‚¹ï¼Ÿã€ã€ã€ã€ã€ã€ã€ã€
     };
 
-    int VerticalDist; //Ã¿¸ñµ½ÏàÁÚ¸ñÖ±Ïß¾àÀë10
-    int ObliqueDist;  //Ã¿¸ñµ½ÏàÁÚ¸ñĞ±Ïß¾àÀë14
+    int VerticalDist; //æ¯æ ¼åˆ°ç›¸é‚»æ ¼ç›´çº¿è·ç¦»10
+    int ObliqueDist;  //æ¯æ ¼åˆ°ç›¸é‚»æ ¼æ–œçº¿è·ç¦»14
 
-    int ROW,COL;//µØÍ¼Êı×éĞĞÊı£¬ÁĞÊı
-    int **map;//µØÍ¼Êı×é
+    int ROW,COL;//åœ°å›¾æ•°ç»„è¡Œæ•°ï¼Œåˆ—æ•°
+    int **map;//åœ°å›¾æ•°ç»„
 
-    //½¨Á¢¸¨ÖúµØÍ¼
+    //å»ºç«‹è¾…åŠ©åœ°å›¾
     PathNode **pathMap;
     MyPoint beginPoint;
     MyPoint endPoint;
 
-    MyTreeNode* beginTreeNode;//¿ª·ÅÁĞ±íµÄÆğÊ¼½Úµã£¬¼´¿ªÊ¼½Úµã
+    MyTreeNode* beginTreeNode;//å¼€æ”¾åˆ—è¡¨çš„èµ·å§‹èŠ‚ç‚¹ï¼Œå³å¼€å§‹èŠ‚ç‚¹
 
-    //´´½¨Ö¸Õë£ºµ±Ç°µã¡¢Ì½Â·µã
-    MyTreeNode* pTemp;//µ±Ç°µã
-    MyTreeNode* pTempChild;//Ì½Â·µã
+    //åˆ›å»ºæŒ‡é’ˆï¼šå½“å‰ç‚¹ã€æ¢è·¯ç‚¹
+    MyTreeNode* pTemp;//å½“å‰ç‚¹
+    MyTreeNode* pTempChild;//æ¢è·¯ç‚¹
 
-    //´´½¨Êı×é£¬±£´æ×Ó½Úµã
-    vector<MyTreeNode*> openTree;//¿ª·ÅÁĞ±í
+    //åˆ›å»ºæ•°ç»„ï¼Œä¿å­˜å­èŠ‚ç‚¹
+    vector<MyTreeNode*> openTree;//å¼€æ”¾åˆ—è¡¨
 
-    vector<MyTreeNode*>::iterator minF_Iter;//ÓÃÓÚ´æ·Å×îĞ¡fÖµ¿ÉĞĞµãµÄµü´úÆ÷
-    vector<MyTreeNode*>::iterator it;//ÓÃÓÚ¼ìË÷µÄµü´úÆ÷
+    vector<MyTreeNode*>::iterator minF_Iter;//ç”¨äºå­˜æ”¾æœ€å°få€¼å¯è¡Œç‚¹çš„è¿­ä»£å™¨
+    vector<MyTreeNode*>::iterator it;//ç”¨äºæ£€ç´¢çš„è¿­ä»£å™¨
 
-    //¸ÃµãÊÇ·ñ¿ÉĞĞ£¬¿ÉĞĞ·µ»Øtrue
+    //è¯¥ç‚¹æ˜¯å¦å¯è¡Œï¼Œå¯è¡Œè¿”å›true
     bool isRoad(const MyPoint& point,PathNode **_pathMap){
         if(point.col <0 || point.col >= COL ||
            point.row <0 || point.row >= ROW
-           )//³¬³öµØÍ¼
+           )//è¶…å‡ºåœ°å›¾
            return false;
-        if(1 == _pathMap[point.row][point.col].value)//¸ÃµãÎªÕÏ°­
+        if(1 == _pathMap[point.row][point.col].value)//è¯¥ç‚¹ä¸ºéšœç¢
             return false;
-        if(_pathMap[point.row][point.col].isfind)//¸ÃµãÒÑ¾­×ß¹ı
+        if(_pathMap[point.row][point.col].isfind)//è¯¥ç‚¹å·²ç»èµ°è¿‡
             return false;
         return true;
     }
 
-    //ÅĞ¶Ïµã(row,col)ÊÇ·ñÎªÕÏ°­Îï
+    //åˆ¤æ–­ç‚¹(row,col)æ˜¯å¦ä¸ºéšœç¢ç‰©
     bool isBarrier(int row, int col, PathNode **_pathMap){
         if(col <0 || col >= COL ||
            row <0 || row >= ROW
-           )//³¬³öµØÍ¼
+           )//è¶…å‡ºåœ°å›¾
            return true;
-        if(1 == _pathMap[row][col].value)//¸ÃµãÎªÕÏ°­
+        if(1 == _pathMap[row][col].value)//è¯¥ç‚¹ä¸ºéšœç¢
             return true;
         return false;
     }
 
-    //¼ÆËãhÖµ
+    //è®¡ç®—hå€¼
     int GetH(const MyPoint& point,const MyPoint& endpos){
-        int x = abs(point.col - endpos.col);//È¡Ë®Æ½¾àÀë²î¾ø¶ÔÖµ
-        int y = abs(point.row - endpos.row);//È¡ÊúÖ±¾àÀë²î¾ø¶ÔÖµ
+        int x = abs(point.col - endpos.col);//å–æ°´å¹³è·ç¦»å·®ç»å¯¹å€¼
+        int y = abs(point.row - endpos.row);//å–ç«–ç›´è·ç¦»å·®ç»å¯¹å€¼
         return (x + y)*VerticalDist;
     }
 
