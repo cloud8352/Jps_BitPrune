@@ -28,6 +28,7 @@ public:
         bool    isfind;//是否走过
         bool    inopen;
         bool    isnull;//是否是空节点
+        bool    isMidJumpNode;//是否是中间跳点
         PathNode* parent;//父节点
         vector<PathNode*> keyNeighbours; //关键邻居节点
     };
@@ -57,9 +58,10 @@ public:
     bool* Prune(short unitMap,char p,char n);
     void Init(int **_map,int _height,int _width);
     PathNode JumpStraight(PathNode*** _pathMap,PathNode currenNode,Direct dir);
-    PathNode JumpOblique(PathNode*** _pathMap,PathNode currenNode,Direct dir);
+    PathNode* JumpOblique(PathNode*** _pathMap,PathNode currenNode,Direct dir);
     vector<PathNode> FindPath(PathNode _startNode,PathNode _endNode);
 
     PathNode JumpStraightBit(PathNode*** _pathMap,PathNode currenNode,Direct dir);//利用位运算优化后的，直线寻跳点
+    vector<PathNode> FindPathPrune(PathNode _startNode,PathNode _endNode);//寻路运用剪枝
 
 };

@@ -28,26 +28,26 @@
 	<vector>
 	<cmath>
 
-1563010022 source:d:\space\space\c\cpp\jps_bitprune\astar.cpp
+1563786431 source:d:\space\space\c\cpp\jps_bitprune\astar.cpp
 	"astar.h"
 
-1563010163 d:\space\space\c\cpp\jps_bitprune\astar.h
+1563696978 d:\space\space\c\cpp\jps_bitprune\astar.h
 	<iostream>
 	<windows.h>
 	<vector>
 	<cmath>
 
-1563694955 source:d:\space\space\c\cpp\jps_bitprune\main.cpp
+1563886449 source:d:\space\space\c\cpp\jps_bitprune\main.cpp
 	<iostream>
 	"astar.h"
 	"jps.h"
 
-1563352851 d:\space\space\c\cpp\jps_bitprune\jps.h
+1563787931 d:\space\space\c\cpp\jps_bitprune\jps.h
 	<iostream>
 	<windows.h>
 	<vector>
 	<cmath>
 
-1563694901 source:d:\space\space\c\cpp\jps_bitprune\jps.cpp
+1563889581 source:d:\space\space\c\cpp\jps_bitprune\jps.cpp
 	"jps.h"
 
