@@ -1,60 +1,81 @@
-#include <iostream> //"#"ä»£è¡¨é¢„å¤„ç†å‘½ä»¤
+#include <iostream> //"#"´ú±íÔ¤´¦ÀíÃüÁî
+#include<cstring>
+#include<fstream>//¶ÁĞ´Í·ÎÄ¼ş
+#include<time.h>
+#include<windows.h>
 #include"astar.h"
 #include"jps.h"
-using namespace std;    //ä½¿ç”¨standardå‘½åç©ºé—´
+using namespace std;    //Ê¹ÓÃstandardÃüÃû¿Õ¼ä
 
 
 int main(){
-    //è¡Œrowï¼Œåˆ—col
-    int height = 8;
-    int width = 15;
-    int test_map[height][width] = {
-        {1,0,1,1,0,0,0,0,0,0,0,1,1,0,1},//0
-        {0,0,0,1,0,0,0,0,0,0,0,0,0,0,1},//1
-        {0,0,0,1,0,0,1,1,0,0,0,1,1,0,0},//2
-        {0,0,0,1,0,0,1,1,0,0,1,1,0,0,0},//3
-        {0,0,0,1,0,0,1,1,0,1,0,0,1,1,0},//4
-        {0,0,0,0,0,1,1,1,0,0,0,0,0,0,0},//5
-        {0,0,0,0,0,0,1,0,0,0,0,0,0,0,0},//6
-        {1,0,1,0,0,1,1,1,0,0,0,0,0,0,0}//7
+    system("mode con cols=120 lines=600");
+    //ĞĞrow£¬ÁĞcol
+    int height  = 50;
+    int width   = 100;
 
-    };
+    int start_x =1,start_y =1;
+    int end_x   =6,end_y  =45;
+    cout<<"µØÍ¼³ß´ç£¨height*width£©:"<<height<<"*"<<width;
+    cout<<endl<<"¿ªÊ¼µã£¨y£¬x£©£º"<<start_y<<","<<start_x<<endl;
+    cout<<"½áÊøµã£¨y£¬x£©£º"<<end_y<<","<<end_x<<endl;
 
-    //åœ°å›¾è½¬æ¢æˆäºŒç»´æŒ‡é’ˆ
-    int **a;
-    a = new int* [height];
+    time_t time_start_ms,time_end_ms;//Ê±¼ä¼ÇÂ¼ms
+
+    //¶ÁÈ¡µØÍ¼
+    string filepath="map/map50x100.txt";
+    ifstream fin(filepath.c_str());
+    if(!fin) {cout<<endl<<"ÎÄ¼ş²»´æÔÚ"<<endl; system("pause");}
+
+    int **pMap;//µØÍ¼¶şÎ¬Ö¸ÕëÊı×é
+    pMap = new int* [height];
     for(int i=0;i < height;i++){
-        a[i] = new int[width];
+        pMap[i] = new int[width];
         for(int j=0;j < width;j++){
-            a[i][j] = test_map[i][j];
+            char c;
+            fin>>c;
+            if('.' == c) pMap[i][j] = 0;
+            else pMap[i][j] = 1;
+            cout<<pMap[i][j];
         }
+        cout<<endl;
     }
+    system("pause");
 
-    Astar::MyPoint startPoint = {1,1};
-    Astar::MyPoint endPoint = {6,14};
+    Astar::MyPoint startPoint = {start_y,start_x};
+    Astar::MyPoint endPoint = {end_y, end_x};
 
     Astar astar;
-    astar.Init(a, height, width, startPoint, endPoint);
+
+    time_start_ms = clock();//aĞÇÑ°Â·¿ªÊ¼Ê±¼ä
+
+    astar.Init(pMap, height, width, startPoint, endPoint);
 
     astar.FindPath();
 
+    time_end_ms = clock();//aĞÇÑ°Â·½áÊøÊ±¼ä
+    cout<<"aĞÇÑ°Â·Ê¹ÓÃÊ±¼ä£º"<<difftime(time_end_ms, time_start_ms)<<"ms";
+
+    astar.PrintRoute();
+    astar.PrintRouteMap();
+
+    system("pause");
 
     //JPS
     cout<<"------------JPS---------------"<<"\n";
     Jps jps;
-    Jps::PathNode jStart = {6, 1};
-    Jps::PathNode jEnd = {5, 13};
+    Jps::PathNode jStart = {start_y,start_x};
+    Jps::PathNode jEnd = {end_y, end_x};
 
-    jps.Init(a, 8, 15);
+    time_start_ms = clock();//JpsPruneÑ°Â·¿ªÊ¼Ê±¼ä
 
-    cout<<"--------JumpStraightBit---------"<<"\n";
-    Jps::PathNode jumpNode;
-    jumpNode = jps.JumpStraightBit(jps.pathMap,jStart,Jps::p_right);
-    if(false == jumpNode.isnull)
-    cout<<"jumpNode.row,jumpNode.col:"<<jumpNode.row<<","<<jumpNode.col<<endl;
-
+    jps.Init(pMap, height, width);
     cout<<"--------FindPathPrune---------"<<"\n";
     jps.FindPathPrune(jStart, jEnd);
+
+    time_end_ms = clock();//JpsPruneÑ°Â·½áÊøÊ±¼ä
+    cout<<"JpsPruneÑ°Â·Ê¹ÓÃÊ±¼ä£º"<<difftime(time_end_ms, time_start_ms)<<"ms";
+    jps.PrintRoute();
 
     system("pause");
     return 0;

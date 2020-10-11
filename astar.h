@@ -57,6 +57,8 @@ public:
     vector<MyTreeNode*>::iterator minF_Iter;//用于存放最小f值可行点的迭代器
     vector<MyTreeNode*>::iterator it;//用于检索的迭代器
 
+    vector<MyTreeNode*> retPath;//储存最终路径
+
     //该点是否可行，可行返回true
     bool isRoad(const MyPoint& point,PathNode **_pathMap){
         if(point.col <0 || point.col >= COL ||
@@ -90,5 +92,7 @@ public:
 
     void Init(int **_map,int height,int width,MyPoint _beginPoint,MyPoint _endPoint);
     void FindPath();
+	void PrintRoute();
+	void PrintRouteMap();
 
 };

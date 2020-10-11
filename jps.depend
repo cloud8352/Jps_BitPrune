@@ -28,26 +28,57 @@
 	<vector>
 	<cmath>
 
-1563786431 source:d:\space\space\c\cpp\jps_bitprune\astar.cpp
+1564194833 source:d:\space\space\c\cpp\jps_bitprune\astar.cpp
 	"astar.h"
 
-1563696978 d:\space\space\c\cpp\jps_bitprune\astar.h
+1564194849 d:\space\space\c\cpp\jps_bitprune\astar.h
 	<iostream>
 	<windows.h>
 	<vector>
 	<cmath>
 
-1563886449 source:d:\space\space\c\cpp\jps_bitprune\main.cpp
+1564194708 source:d:\space\space\c\cpp\jps_bitprune\main.cpp
 	<iostream>
+	<cstring>
+	<fstream>
+	<time.h>
+	<windows.h>
 	"astar.h"
 	"jps.h"
 
-1563787931 d:\space\space\c\cpp\jps_bitprune\jps.h
+1564296862 d:\space\space\c\cpp\jps_bitprune\jps.h
 	<iostream>
 	<windows.h>
 	<vector>
 	<cmath>
 
-1563889581 source:d:\space\space\c\cpp\jps_bitprune\jps.cpp
+1564936348 source:d:\space\space\c\cpp\jps_bitprune\jps.cpp
+	"jps.h"
+
+1564194274 source:d:\space\space\c\cpp\jps_bitprune _test\astar.cpp
+	"astar.h"
+
+1564194849 d:\space\space\c\cpp\jps_bitprune _test\astar.h
+	<iostream>
+	<windows.h>
+	<vector>
+	<cmath>
+
+1564194367 source:d:\space\space\c\cpp\jps_bitprune _test\jps.cpp
+	"jps.h"
+
+1564194414 d:\space\space\c\cpp\jps_bitprune _test\jps.h
+	<iostream>
+	<windows.h>
+	<vector>
+	<cmath>
+
+1564194708 source:d:\space\space\c\cpp\jps_bitprune _test\main.cpp
+	<iostream>
+	<cstring>
+	<fstream>
+	<time.h>
+	<windows.h>
+	"astar.h"
 	"jps.h"
 

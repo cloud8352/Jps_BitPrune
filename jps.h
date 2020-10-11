@@ -41,16 +41,17 @@ public:
 
     PathNode nullNode;//空节点
 
+    vector<PathNode> retPath;//储存最终路径
 
     //计算两点直线距离
-    int GetDis(const PathNode& startNode,const PathNode& endNode){
-        int dis = sqrt( pow( (endNode.col -startNode.col),2) +pow( (endNode.row -startNode.row),2) )*10;//pow次方函数
+    int GetDis(const PathNode& _startNode,const PathNode& _endNode){
+        int dis = sqrt( pow( (_endNode.col -_startNode.col),2) +pow( (_endNode.row -_startNode.row),2) )*10;//pow次方函数
         return dis;
     }
     //计算h值
-    int GetH(const PathNode& startNode,const PathNode& endNode){
-        int x = abs(startNode.col - endNode.col);//取水平距离差绝对值
-        int y = abs(startNode.row - endNode.row);//取竖直距离差绝对值
+    int GetH(const PathNode& _startNode,const PathNode& _endNode){
+        int x = abs(_startNode.col - _endNode.col);//取水平距离差绝对值
+        int y = abs(_startNode.row - _endNode.row);//取竖直距离差绝对值
         return (x + y)*10;
     }
 
@@ -63,5 +64,6 @@ public:
 
     PathNode JumpStraightBit(PathNode*** _pathMap,PathNode currenNode,Direct dir);//利用位运算优化后的，直线寻跳点
     vector<PathNode> FindPathPrune(PathNode _startNode,PathNode _endNode);//寻路运用剪枝
+	void PrintRoute();
 
 };
