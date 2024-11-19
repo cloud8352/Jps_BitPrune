@@ -1,7 +1,7 @@
 #include <iostream>
-#include<windows.h>
-#include<vector>
-#include<cmath>
+#include <vector>
+#include <cmath>
+#include <cstring>
 
 using namespace std;
 using std::vector;
