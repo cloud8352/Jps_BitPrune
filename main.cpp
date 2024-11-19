@@ -1,82 +1,158 @@
-#include <iostream> //"#"´ú±íÔ¤´¦ÀíÃüÁî
-#include<cstring>
-#include<fstream>//¶ÁĞ´Í·ÎÄ¼ş
-#include<time.h>
-#include<windows.h>
-#include"astar.h"
-#include"jps.h"
-using namespace std;    //Ê¹ÓÃstandardÃüÃû¿Õ¼ä
 
+#include "AStar.h"
+#include "jps.h"
 
-int main(){
-    system("mode con cols=120 lines=600");
-    //ĞĞrow£¬ÁĞcol
-    int height  = 50;
-    int width   = 100;
+#include <iostream> //"#"ä»£è¡¨é¢„å¤„ç†å‘½ä»¤
+#include <cstring>
+#include <fstream> //è¯»å†™å¤´æ–‡ä»¶
+#include <chrono>
 
-    int start_x =1,start_y =1;
-    int end_x   =6,end_y  =45;
-    cout<<"µØÍ¼³ß´ç£¨height*width£©:"<<height<<"*"<<width;
-    cout<<endl<<"¿ªÊ¼µã£¨y£¬x£©£º"<<start_y<<","<<start_x<<endl;
-    cout<<"½áÊøµã£¨y£¬x£©£º"<<end_y<<","<<end_x<<endl;
+using namespace std; // ä½¿ç”¨standardå‘½åç©ºé—´
+using namespace std::chrono;
 
-    time_t time_start_ms,time_end_ms;//Ê±¼ä¼ÇÂ¼ms
+// åœ°å›¾äºŒç»´æŒ‡é’ˆæ•°ç»„
+int **MapTable = nullptr;
+unsigned int MapWidth = 0;
+unsigned int MapHeight = 0;
 
-    //¶ÁÈ¡µØÍ¼
-    string filepath="map/map50x100.txt";
-    ifstream fin(filepath.c_str());
-    if(!fin) {cout<<endl<<"ÎÄ¼ş²»´æÔÚ"<<endl; system("pause");}
+#ifdef _WIN32
+void waitForContinue()
+{
+    system("pause");
+}
+#else
+#include <termios.h>
 
-    int **pMap;//µØÍ¼¶şÎ¬Ö¸ÕëÊı×é
-    pMap = new int* [height];
-    for(int i=0;i < height;i++){
-        pMap[i] = new int[width];
-        for(int j=0;j < width;j++){
-            char c;
-            fin>>c;
-            if('.' == c) pMap[i][j] = 0;
-            else pMap[i][j] = 1;
-            cout<<pMap[i][j];
-        }
-        cout<<endl;
+void getch() {
+    struct termios oldattr, newattr;
+    int ch;
+    tcgetattr(0, &oldattr); // è·å–å½“å‰çš„ç»ˆç«¯è®¾ç½®
+    newattr = oldattr;
+    newattr.c_lflag &= ~(ICANON | ECHO); // è®¾ç½®ä¸ºéæ ‡å‡†æ¨¡å¼
+    tcsetattr(0, TCSANOW, &newattr); // è®¾ç½®æ–°çš„ç»ˆç«¯è®¾ç½®
+ 
+    ch = getchar(); // è¯»å–ä¸€ä¸ªå­—ç¬¦
+ 
+    tcsetattr(0, TCSANOW, &oldattr); // æ¢å¤åŸæ¥çš„ç»ˆç«¯è®¾ç½®
+    std::cout << "\n"; // è¾“å‡ºæ¢è¡Œï¼Œç”¨äºæ¸…é™¤å›è½¦å­—ç¬¦
+}
+
+void waitForContinue()
+{
+    cout<<"æŒ‰ä»»æ„é”®ç»§ç»­"<<endl;
+    getch();
+}
+#endif
+
+void deleteMap()
+{
+    for (int y = 0; y < MapHeight; y++)
+    {
+        delete [] MapTable[y];
     }
-    system("pause");
+    delete [] MapTable;
+    MapTable = nullptr;
+}
 
-    Astar::MyPoint startPoint = {start_y,start_x};
-    Astar::MyPoint endPoint = {end_y, end_x};
+bool loadMap(const string &path, unsigned int width, unsigned int height)
+{
+    if (MapTable) {
+        deleteMap();
+    }
 
-    Astar astar;
+    // è¯»å–åœ°å›¾
+    // string filepath = "map/map100x101.txt";
+    ifstream fin(path.c_str());
+    if (!fin)
+    {
+        cout << endl
+            << "æ–‡ä»¶ä¸å­˜åœ¨" << endl;
+        return false;
+    }
 
-    time_start_ms = clock();//aĞÇÑ°Â·¿ªÊ¼Ê±¼ä
+    MapTable = new int *[height];
+    for (int i = 0; i < height; i++)
+    {
+        MapTable[i] = new int[width];
+        for (int j = 0; j < width; j++)
+        {
+            char c;
+            fin >> c;
+            if ('.' == c)
+                MapTable[i][j] = 0;
+            else
+                MapTable[i][j] = 1;
+            cout << MapTable[i][j];
+        }
+        cout << endl;
+    }
+    MapWidth = width;
+    MapHeight = height;
 
-    astar.Init(pMap, height, width, startPoint, endPoint);
+    return true;
+}
 
-    astar.FindPath();
+int main()
+{
+    system("chcp 65001");
+    system("mode con cols=120 lines=600");
+    // è¡Œrowï¼Œåˆ—col
+    int height = 101;
+    int width = 100;
 
-    time_end_ms = clock();//aĞÇÑ°Â·½áÊøÊ±¼ä
-    cout<<"aĞÇÑ°Â·Ê¹ÓÃÊ±¼ä£º"<<difftime(time_end_ms, time_start_ms)<<"ms";
+    int start_x = 60, start_y = 1;
+    int end_x = 99, end_y = 99;
+    cout << "åœ°å›¾å°ºå¯¸ï¼ˆwidth*height):" << width << "*" << height;
+    cout << endl
+         << "å¼€å§‹ç‚¹ï¼ˆxï¼Œyï¼‰ï¼š" << start_x << "," << start_y << endl;
+    cout << "ç»“æŸç‚¹ï¼ˆxï¼Œyï¼‰ï¼š" << end_x << "," << end_y << endl;
 
-    astar.PrintRoute();
-    astar.PrintRouteMap();
+    // æ—¶é—´è®°å½•ms
+    time_point beginTimePoint = std::chrono::high_resolution_clock::now();
+    time_point endTimePoint = beginTimePoint; 
 
-    system("pause");
+    bool succeed = loadMap("map/map100x101.txt", width, height);
+    if (!succeed) {
+        return 0;
+    }
+    waitForContinue();
 
-    //JPS
-    cout<<"------------JPS---------------"<<"\n";
+    AStar aStar;
+    // aæ˜Ÿå¯»è·¯å¼€å§‹æ—¶é—´
+    beginTimePoint = std::chrono::high_resolution_clock::now();
+
+    aStar.InitMap(MapTable, width, height);
+    aStar.FindPath(start_x, start_y, end_x, end_y);
+
+    // aæ˜Ÿå¯»è·¯ç»“æŸæ—¶é—´
+    endTimePoint = std::chrono::high_resolution_clock::now();
+    milliseconds elapsedTime = duration_cast<milliseconds>(endTimePoint - beginTimePoint);
+    cout << "aæ˜Ÿå¯»è·¯ä½¿ç”¨æ—¶é—´ï¼š" << elapsedTime.count() << "ms";
+
+    aStar.PrintPath();
+    aStar.PrintPathMap();
+    waitForContinue();
+
+    // JPS
+    cout << "------------JPS---------------" << "\n";
     Jps jps;
-    Jps::PathNode jStart = {start_y,start_x};
+    Jps::PathNode jStart = {start_y, start_x};
     Jps::PathNode jEnd = {end_y, end_x};
 
-    time_start_ms = clock();//JpsPruneÑ°Â·¿ªÊ¼Ê±¼ä
+    // JpsPruneå¯»è·¯å¼€å§‹æ—¶é—´
+    beginTimePoint = std::chrono::high_resolution_clock::now();
 
-    jps.Init(pMap, height, width);
-    cout<<"--------FindPathPrune---------"<<"\n";
+    jps.Init(MapTable, height, width);
+    cout << "--------FindPathPrune---------" << "\n";
     jps.FindPathPrune(jStart, jEnd);
 
-    time_end_ms = clock();//JpsPruneÑ°Â·½áÊøÊ±¼ä
-    cout<<"JpsPruneÑ°Â·Ê¹ÓÃÊ±¼ä£º"<<difftime(time_end_ms, time_start_ms)<<"ms";
+    // JpsPruneå¯»è·¯ç»“æŸæ—¶é—´
+    endTimePoint = std::chrono::high_resolution_clock::now();
+    elapsedTime = duration_cast<milliseconds>(endTimePoint - beginTimePoint);
+    cout << "JpsPruneå¯»è·¯ä½¿ç”¨æ—¶é—´ï¼š" << elapsedTime.count() << "ms";
     jps.PrintRoute();
+    jps.PrintRouteMap();
 
-    system("pause");
+    waitForContinue();
     return 0;
 }

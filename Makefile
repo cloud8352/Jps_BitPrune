@@ -1,11 +1,14 @@
+
+cppFlags=
+
 main:AStar Jps
-	g++ -o FindPath main.cpp astar.o jps.o
+	g++ ${cppFlags} -o FindPath main.cpp AStar.o jps.o
 
 AStar:
-	g++ -c astar.cpp
+	g++ ${cppFlags} -c AStar.cpp
 
 Jps:
-	g++ -c jps.cpp
+	g++ ${cppFlags} -c jps.cpp
 
 clean:
 	rm -rf *.o FindPath.exe FindPath
