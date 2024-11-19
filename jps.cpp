@@ -1,17 +1,17 @@
-#include"jps.h"
+#include "jps.h"
 
-
-//ÅĞ¶ÏÁÚ¾ÓÀàĞÍ£¬ÊÇ·ñÊÇ×î¼ÑÁÚ¾ÓºÍÇ¿ÆÈÁÚ¾Ó
-//Èë²Î£ºµ¥ÔªµØÍ¼8Î»¶ş½øÖÆ¸ñÊ½(Ê®½øÖÆ·¶Î§0-255)£¬¸¸½ÚµãÎ»ÖÃ(0-8)¡¢¼ì²âµÄÁÚ¾ÓµÄÎ»ÖÃ(0-8)
-//µ±Ç°µãÔÚµ¥ÔªµØÍ¼µÄ4Î»ÖÃ
-bool* Jps::Prune(short unitMap,char p,char n){
-    static bool retType[2];//·µ»ØµÄÀàĞÍ
+// åˆ¤æ–­é‚»å±…ç±»å‹ï¼Œæ˜¯å¦æ˜¯æœ€ä½³é‚»å±…å’Œå¼ºè¿«é‚»å±…
+// å…¥å‚ï¼šå•å…ƒåœ°å›¾8ä½äºŒè¿›åˆ¶æ ¼å¼(åè¿›åˆ¶èŒƒå›´0-255)ï¼Œçˆ¶èŠ‚ç‚¹ä½ç½®(0-8)ã€æ£€æµ‹çš„é‚»å±…çš„ä½ç½®(0-8)
+// å½“å‰ç‚¹åœ¨å•å…ƒåœ°å›¾çš„4ä½ç½®
+bool *Jps::Prune(short unitMap, char p, char n)
+{
+    static bool retType[2]; // è¿”å›çš„ç±»å‹
     char obstaclePos = 0;
 
- #if 0
-    //µ¥ÔªµØÍ¼Ô¤´¦Àí
+#if 0
+    //å•å…ƒåœ°å›¾é¢„å¤„ç†
     char unitMapTmp =0;
-    if(p ==0){//µ¥ÔªµØÍ¼Ë³Ê±Õë×ª180¶È
+    if(p ==0){//å•å…ƒåœ°å›¾é¡ºæ—¶é’ˆè½¬180åº¦
         unitMapTmp = unitMapTmp | (unitMap<<8 &(1<<8) );//0->8
         unitMapTmp = unitMapTmp | (unitMap<<6 &(1<<7) );//1->7
         unitMapTmp = unitMapTmp | (unitMap<<4 &(1<<6) );//2->6
@@ -24,273 +24,343 @@ bool* Jps::Prune(short unitMap,char p,char n){
     }
 #endif // 0
 
-    if(p == 0){
-        if(n ==7 ||n ==5 || n ==8){
+    if (p == 0)
+    {
+        if (n == 7 || n == 5 || n == 8)
+        {
             retType[0] = true;
             retType[1] = false;
         }
 
-        if(n ==2){
-            obstaclePos = unitMap>>1 & 0x01;
-            if( 1 == obstaclePos){
+        if (n == 2)
+        {
+            obstaclePos = unitMap >> 1 & 0x01;
+            if (1 == obstaclePos)
+            {
                 retType[0] = true;
                 retType[1] = true;
             }
-            if( 0 == obstaclePos){
+            if (0 == obstaclePos)
+            {
                 retType[0] = false;
                 retType[1] = false;
             }
         }
-        if(n ==6){
-            obstaclePos = unitMap>>3 & 0x01;
-            if( 1 == obstaclePos){
+        if (n == 6)
+        {
+            obstaclePos = unitMap >> 3 & 0x01;
+            if (1 == obstaclePos)
+            {
                 retType[0] = true;
                 retType[1] = true;
             }
-            if( 0 == obstaclePos){
+            if (0 == obstaclePos)
+            {
                 retType[0] = false;
                 retType[1] = false;
             }
         }
 
-        if(n == 1||n ==3){
+        if (n == 1 || n == 3)
+        {
             retType[0] = false;
             retType[1] = false;
         }
     }
 
-    if(p == 1){
-        if(n ==7){
+    if (p == 1)
+    {
+        if (n == 7)
+        {
             retType[0] = true;
             retType[1] = false;
         }
-        if(n ==6){
-            obstaclePos = unitMap>>3 & 0x01;
-            if( 1 == obstaclePos){
+        if (n == 6)
+        {
+            obstaclePos = unitMap >> 3 & 0x01;
+            if (1 == obstaclePos)
+            {
                 retType[0] = true;
                 retType[1] = true;
             }
-            if( 0 == obstaclePos){
+            if (0 == obstaclePos)
+            {
                 retType[0] = false;
                 retType[1] = false;
             }
         }
-        if(n ==8){
-            obstaclePos = unitMap>>5 & 0x01;
-            if( 1 == obstaclePos){
+        if (n == 8)
+        {
+            obstaclePos = unitMap >> 5 & 0x01;
+            if (1 == obstaclePos)
+            {
                 retType[0] = true;
                 retType[1] = true;
             }
-            if( 0 == obstaclePos){
+            if (0 == obstaclePos)
+            {
                 retType[0] = false;
                 retType[1] = false;
             }
         }
 
-        if(n == 0||n ==2||n ==3||n ==5){
+        if (n == 0 || n == 2 || n == 3 || n == 5)
+        {
             retType[0] = false;
             retType[1] = false;
         }
     }
 
-    if(p == 2){
-        if(n ==7 ||n ==6 || n ==3){
+    if (p == 2)
+    {
+        if (n == 7 || n == 6 || n == 3)
+        {
             retType[0] = true;
             retType[1] = false;
         }
-        if(n ==0){
-            obstaclePos = unitMap>>1 & 0x01;
-            if( 1 == obstaclePos){
+        if (n == 0)
+        {
+            obstaclePos = unitMap >> 1 & 0x01;
+            if (1 == obstaclePos)
+            {
                 retType[0] = true;
                 retType[1] = true;
             }
-            if( 0 == obstaclePos){
+            if (0 == obstaclePos)
+            {
                 retType[0] = false;
                 retType[1] = false;
             }
         }
-        if(n ==8){
-            obstaclePos = unitMap>>5 & 0x01;
-            if( 1 == obstaclePos){
+        if (n == 8)
+        {
+            obstaclePos = unitMap >> 5 & 0x01;
+            if (1 == obstaclePos)
+            {
                 retType[0] = true;
                 retType[1] = true;
             }
-            if( 0 == obstaclePos){
+            if (0 == obstaclePos)
+            {
                 retType[0] = false;
                 retType[1] = false;
             }
         }
 
-        if(n == 1||n ==5){
+        if (n == 1 || n == 5)
+        {
             retType[0] = false;
             retType[1] = false;
         }
     }
 
-    if(p == 3){
-        if(n ==5){
+    if (p == 3)
+    {
+        if (n == 5)
+        {
             retType[0] = true;
             retType[1] = false;
         }
-        if(n ==2){
-            obstaclePos = unitMap>>1 & 0x01;
-            if( 1 == obstaclePos){
+        if (n == 2)
+        {
+            obstaclePos = unitMap >> 1 & 0x01;
+            if (1 == obstaclePos)
+            {
                 retType[0] = true;
                 retType[1] = true;
             }
-            if( 0 == obstaclePos){
+            if (0 == obstaclePos)
+            {
                 retType[0] = false;
                 retType[1] = false;
             }
         }
-        if(n ==8){
-            obstaclePos = unitMap>>7 & 0x01;
-            if( 1 == obstaclePos){
+        if (n == 8)
+        {
+            obstaclePos = unitMap >> 7 & 0x01;
+            if (1 == obstaclePos)
+            {
                 retType[0] = true;
                 retType[1] = true;
             }
-            if( 0 == obstaclePos){
+            if (0 == obstaclePos)
+            {
                 retType[0] = false;
                 retType[1] = false;
             }
         }
-        if(n == 0||n ==1||n ==6||n ==7){
+        if (n == 0 || n == 1 || n == 6 || n == 7)
+        {
             retType[0] = false;
             retType[1] = false;
         }
     }
 
-    if(p == 5){
-        if(n ==3){
+    if (p == 5)
+    {
+        if (n == 3)
+        {
             retType[0] = true;
             retType[1] = false;
         }
-        if(n ==0){
-            obstaclePos = unitMap>>1 & 0x01;
-            if( 1 == obstaclePos){
+        if (n == 0)
+        {
+            obstaclePos = unitMap >> 1 & 0x01;
+            if (1 == obstaclePos)
+            {
                 retType[0] = true;
                 retType[1] = true;
             }
-            if( 0 == obstaclePos){
+            if (0 == obstaclePos)
+            {
                 retType[0] = false;
                 retType[1] = false;
             }
         }
-        if(n ==6){
-            obstaclePos = unitMap>>7 & 0x01;
-            if( 1 == obstaclePos){
+        if (n == 6)
+        {
+            obstaclePos = unitMap >> 7 & 0x01;
+            if (1 == obstaclePos)
+            {
                 retType[0] = true;
                 retType[1] = true;
             }
-            if( 0 == obstaclePos){
+            if (0 == obstaclePos)
+            {
                 retType[0] = false;
                 retType[1] = false;
             }
         }
 
-        if(n == 1||n ==2||n ==7||n ==8){
+        if (n == 1 || n == 2 || n == 7 || n == 8)
+        {
             retType[0] = false;
             retType[1] = false;
         }
     }
 
-
-    if(p == 6){
-        if(n ==1 ||n ==2 || n ==5){
+    if (p == 6)
+    {
+        if (n == 1 || n == 2 || n == 5)
+        {
             retType[0] = true;
             retType[1] = false;
         }
-        if(n ==0){
-            obstaclePos = unitMap>>3 & 0x01;
-            if( 1 == obstaclePos){
+        if (n == 0)
+        {
+            obstaclePos = unitMap >> 3 & 0x01;
+            if (1 == obstaclePos)
+            {
                 retType[0] = true;
                 retType[1] = true;
             }
-            if( 0 == obstaclePos){
+            if (0 == obstaclePos)
+            {
                 retType[0] = false;
                 retType[1] = false;
             }
         }
-        if(n ==8){
-            obstaclePos = unitMap>>7 & 0x01;
-            if( 1 == obstaclePos){
+        if (n == 8)
+        {
+            obstaclePos = unitMap >> 7 & 0x01;
+            if (1 == obstaclePos)
+            {
                 retType[0] = true;
                 retType[1] = true;
             }
-            if( 0 == obstaclePos){
+            if (0 == obstaclePos)
+            {
                 retType[0] = false;
                 retType[1] = false;
             }
         }
 
-        if(n == 3||n ==7){
+        if (n == 3 || n == 7)
+        {
             retType[0] = false;
             retType[1] = false;
         }
     }
 
-    if(p == 7){
-        if(n ==1){
+    if (p == 7)
+    {
+        if (n == 1)
+        {
             retType[0] = true;
             retType[1] = false;
         }
-        if(n ==0){
-            obstaclePos = unitMap>>3 & 0x01;
-            if( 1 == obstaclePos){
+        if (n == 0)
+        {
+            obstaclePos = unitMap >> 3 & 0x01;
+            if (1 == obstaclePos)
+            {
                 retType[0] = true;
                 retType[1] = true;
             }
-            if( 0 == obstaclePos){
+            if (0 == obstaclePos)
+            {
                 retType[0] = false;
                 retType[1] = false;
             }
         }
-        if(n ==2){
-            obstaclePos = unitMap>>5 & 0x01;
-            if( 1 == obstaclePos){
+        if (n == 2)
+        {
+            obstaclePos = unitMap >> 5 & 0x01;
+            if (1 == obstaclePos)
+            {
                 retType[0] = true;
                 retType[1] = true;
             }
-            if( 0 == obstaclePos){
+            if (0 == obstaclePos)
+            {
                 retType[0] = false;
                 retType[1] = false;
             }
         }
-        if(n == 3||n ==5||n ==6||n ==8){
+        if (n == 3 || n == 5 || n == 6 || n == 8)
+        {
             retType[0] = false;
             retType[1] = false;
         }
-
     }
 
-    if(p == 8){
-        if(n ==0 ||n ==1 || n ==3){
+    if (p == 8)
+    {
+        if (n == 0 || n == 1 || n == 3)
+        {
             retType[0] = true;
             retType[1] = false;
         }
-        if(n ==2){
-            obstaclePos = unitMap>>5 & 0x01;
-            if( 1 == obstaclePos){
+        if (n == 2)
+        {
+            obstaclePos = unitMap >> 5 & 0x01;
+            if (1 == obstaclePos)
+            {
                 retType[0] = true;
                 retType[1] = true;
             }
-            if( 0 == obstaclePos){
+            if (0 == obstaclePos)
+            {
                 retType[0] = false;
                 retType[1] = false;
             }
         }
-        if(n ==6){
-            obstaclePos = unitMap>>7 & 0x01;
-            if( 1 == obstaclePos){
+        if (n == 6)
+        {
+            obstaclePos = unitMap >> 7 & 0x01;
+            if (1 == obstaclePos)
+            {
                 retType[0] = true;
                 retType[1] = true;
             }
-            if( 0 == obstaclePos){
+            if (0 == obstaclePos)
+            {
                 retType[0] = false;
                 retType[1] = false;
             }
         }
-        if(n == 5||n ==7){
+        if (n == 5 || n == 7)
+        {
             retType[0] = false;
             retType[1] = false;
         }
@@ -299,22 +369,24 @@ bool* Jps::Prune(short unitMap,char p,char n){
     return retType;
 }
 
-void Jps::Init(int **_map,int _height,int _width){
-
-    //³õÊ¼»¯¿Õ½Úµã
+void Jps::Init(int **_map, int _height, int _width)
+{
+    // åˆå§‹åŒ–ç©ºèŠ‚ç‚¹
     nullNode.isnull = true;
     nullNode.isMidJumpNode = false;
 
     height = _height;
     width = _width;
 
-    //½¨Á¢¸¨ÖúµØÍ¼
-    pathMap = new PathNode**[height];
-    for(int i=0;i<height;i++){
-        pathMap[i] = new PathNode*[width];
-        for(int j=0;j<width;j++){
+    // å»ºç«‹è¾…åŠ©åœ°å›¾
+    pathMap = new PathNode **[height];
+    for (int i = 0; i < height; i++)
+    {
+        pathMap[i] = new PathNode *[width];
+        for (int j = 0; j < width; j++)
+        {
             pathMap[i][j] = new PathNode;
-            memset(pathMap[i][j],0, sizeof(PathNode));
+            memset(pathMap[i][j], 0, sizeof(PathNode));
             pathMap[i][j]->row = i;
             pathMap[i][j]->col = j;
             pathMap[i][j]->isfind = false;
@@ -322,386 +394,449 @@ void Jps::Init(int **_map,int _height,int _width){
             pathMap[i][j]->value = _map[i][j];
         }
     }
-
 }
 
-//Ö±ÌøÔ¾£¨Î»ÔËËãÓÅ»¯£©
-//Èë²Î£º¸¨ÖúµØÍ¼¡¢µ±Ç°½Úµã¡¢Ö±ÌøÔ¾·½Ïò-x·½ÏòÖµ£¬y·½ÏòÖµ
-//·µ»ØÌøµã
-Jps::PathNode Jps::JumpStraightBit(PathNode*** _pathMap,PathNode currenNode,Direct dir){
+// ç›´è·³è·ƒï¼ˆä½è¿ç®—ä¼˜åŒ–ï¼‰
+// å…¥å‚ï¼šè¾…åŠ©åœ°å›¾ã€å½“å‰èŠ‚ç‚¹ã€ç›´è·³è·ƒæ–¹å‘-xæ–¹å‘å€¼ï¼Œyæ–¹å‘å€¼
+// è¿”å›è·³ç‚¹
+Jps::PathNode Jps::JumpStraightBit(PathNode ***_pathMap, PathNode currenNode, Direct dir)
+{
     PathNode nodeTmp = currenNode;
     PathNode jumpNode = currenNode;
 
-    unsigned int bitMap = 0;//ÁÙÊ±½Úµãµ±Ç°ĞĞ»òÁĞÌøµãÅĞ¶ÏÎ»µØÍ¼
-    unsigned int bitMapUp = 0;//ÁÙÊ±½ÚµãÉÏÒ»ĞĞÌøµãÅĞ¶ÏÎ»µØÍ¼
-    unsigned int bitMapDown = 0;//ÁÙÊ±½ÚµãÏÂÒ»ĞĞÌøµãÅĞ¶ÏÎ»µØÍ¼
+    unsigned int bitMap = 0;     // ä¸´æ—¶èŠ‚ç‚¹å½“å‰è¡Œæˆ–åˆ—è·³ç‚¹åˆ¤æ–­ä½åœ°å›¾
+    unsigned int bitMapUp = 0;   // ä¸´æ—¶èŠ‚ç‚¹ä¸Šä¸€è¡Œè·³ç‚¹åˆ¤æ–­ä½åœ°å›¾
+    unsigned int bitMapDown = 0; // ä¸´æ—¶èŠ‚ç‚¹ä¸‹ä¸€è¡Œè·³ç‚¹åˆ¤æ–­ä½åœ°å›¾
     unsigned int bitMapLeft = 0;
     unsigned int bitMapRight = 0;
 
-    char barrierUpBit = 0;//ÕÏ°­ÍùÉÏÒ»µãÖµ
-    char barrierDownBit = 0;//ÕÏ°­ÏÂÒ»µãÖµ
-    char barrierLeftBit = 0;//ÕÏ°­×óÒ»µãÖµ
-    char barrierRightBit = 0;//ÕÏ°­ÓÒÒ»µãÖµ
-    char barrierLeftUpBit = 0;//ÕÏ°­×óÉÏÖµ
-    char barrierLeftDownBit = 0;//ÕÏ°­×óÏÂÖµ
-    char barrierRightUpBit = 0;//ÕÏ°­ÓÒÉÏÖµ
-    char barrierRightDownBit = 0;//ÕÏ°­ÓÒÏÂÖµ
+    char barrierUpBit = 0;        // éšœç¢å¾€ä¸Šä¸€ç‚¹å€¼
+    char barrierDownBit = 0;      // éšœç¢ä¸‹ä¸€ç‚¹å€¼
+    char barrierLeftBit = 0;      // éšœç¢å·¦ä¸€ç‚¹å€¼
+    char barrierRightBit = 0;     // éšœç¢å³ä¸€ç‚¹å€¼
+    char barrierLeftUpBit = 0;    // éšœç¢å·¦ä¸Šå€¼
+    char barrierLeftDownBit = 0;  // éšœç¢å·¦ä¸‹å€¼
+    char barrierRightUpBit = 0;   // éšœç¢å³ä¸Šå€¼
+    char barrierRightDownBit = 0; // éšœç¢å³ä¸‹å€¼
 
-    int n,j;
-    //¸ù¾İ·½Ïò³õÊ¼»¯¿ªÊ¼ËÑÑ°µÄµã
-    switch(dir)
+    int n, j;
+    // æ ¹æ®æ–¹å‘åˆå§‹åŒ–å¼€å§‹æœå¯»çš„ç‚¹
+    switch (dir)
     {
     case p_up:
-        nodeTmp.row = currenNode.row -1;
+        nodeTmp.row = currenNode.row - 1;
         nodeTmp.col = currenNode.col;
         break;
     case p_down:
-        nodeTmp.row = currenNode.row +1;
+        nodeTmp.row = currenNode.row + 1;
         nodeTmp.col = currenNode.col;
         break;
     case p_left:
         nodeTmp.row = currenNode.row;
-        nodeTmp.col = currenNode.col -1;
+        nodeTmp.col = currenNode.col - 1;
         break;
     case p_right:
         nodeTmp.row = currenNode.row;
-        nodeTmp.col = currenNode.col +1;
+        nodeTmp.col = currenNode.col + 1;
         break;
     default:
         break;
     }
 
-    //Èç¹ûËÑÑ°µã£¬ÊÇÕÏ°­Îï£¬»òÕß³öÁËµØÍ¼£¬·µ»Ø¿Õ
-    if(height <= nodeTmp.row || 0 > nodeTmp.row||
-       width <= nodeTmp.col || 0 > nodeTmp.col ||
-        1 == _pathMap[nodeTmp.row][nodeTmp.col]->value
-       ){
+    // å¦‚æœæœå¯»ç‚¹ï¼Œæ˜¯éšœç¢ç‰©ï¼Œæˆ–è€…å‡ºäº†åœ°å›¾ï¼Œè¿”å›ç©º
+    if (height <= nodeTmp.row || 0 > nodeTmp.row ||
+        width <= nodeTmp.col || 0 > nodeTmp.col ||
+        1 == _pathMap[nodeTmp.row][nodeTmp.col]->value)
+    {
         return nullNode;
     }
 
-    while(1){
-        //Çå¿ÕÎ»µØÍ¼
+    while (1)
+    {
+        // æ¸…ç©ºä½åœ°å›¾
         bitMapUp = 0;
         bitMap = 0;
         bitMapDown = 0;
         bitMapLeft = 0;
         bitMapRight = 0;
-        //Çå¿ÕÕÏ°­ÎïÖÜÎ§µãÖµ
-        barrierUpBit = 0;//ÕÏ°­ÍùÉÏÒ»µãÖµ
-        barrierDownBit = 0;//ÕÏ°­ÏÂÒ»µãÖµ
-        barrierLeftBit = 0;//ÕÏ°­×óÒ»µãÖµ
-        barrierRightBit = 0;//ÕÏ°­ÓÒÒ»µãÖµ
-        barrierLeftUpBit = 0;//ÕÏ°­×óÉÏÖµ
-        barrierLeftDownBit = 0;//ÕÏ°­×óÏÂÖµ
-        barrierRightUpBit = 0;//ÕÏ°­ÓÒÉÏÖµ
-        barrierRightDownBit = 0;//ÕÏ°­ÓÒÏÂÖµ
+        // æ¸…ç©ºéšœç¢ç‰©å‘¨å›´ç‚¹å€¼
+        barrierUpBit = 0;        // éšœç¢å¾€ä¸Šä¸€ç‚¹å€¼
+        barrierDownBit = 0;      // éšœç¢ä¸‹ä¸€ç‚¹å€¼
+        barrierLeftBit = 0;      // éšœç¢å·¦ä¸€ç‚¹å€¼
+        barrierRightBit = 0;     // éšœç¢å³ä¸€ç‚¹å€¼
+        barrierLeftUpBit = 0;    // éšœç¢å·¦ä¸Šå€¼
+        barrierLeftDownBit = 0;  // éšœç¢å·¦ä¸‹å€¼
+        barrierRightUpBit = 0;   // éšœç¢å³ä¸Šå€¼
+        barrierRightDownBit = 0; // éšœç¢å³ä¸‹å€¼
 
+        // å¦‚æœä¸´æ—¶èŠ‚ç‚¹ä¸åœ¨åœ°å›¾ä¸­ï¼Œåˆ™è¯´æ˜æ­¤æ¬¡æœå¯»æ²¡æœ‰è·³ç‚¹ï¼Œç›´æ¥è¿”å›ç©ºèŠ‚ç‚¹ï¼›
+        if (0 > nodeTmp.row || height <= nodeTmp.row || 0 > nodeTmp.col || width <= nodeTmp.col)
+            return nullNode;
 
-        //Èç¹ûÁÙÊ±½Úµã²»ÔÚµØÍ¼ÖĞ£¬ÔòËµÃ÷´Ë´ÎËÑÑ°Ã»ÓĞÌøµã£¬Ö±½Ó·µ»Ø¿Õ½Úµã£»
-        if(0 > nodeTmp.row ||height <= nodeTmp.row ||0 > nodeTmp.col ||width <= nodeTmp.col) return nullNode;
-
-        if(p_right == dir){
-            //½¨Á¢Î»µØÍ¼
-            for(int i=0;i < 32;i++){
-                if(0 <= nodeTmp.col +i && width >nodeTmp.col +i){//Èç¹ûÁĞÊıÔÚµØÍ¼ÁĞÊı·¶Î§ÄÚ
-                    if(0 <= nodeTmp.row -1 && height >nodeTmp.row +1){//Ã»³¬³ö¸¨Öú½ÚµãµØÍ¼
-                        bitMapUp = bitMapUp<<1 |_pathMap[nodeTmp.row -1][nodeTmp.col +i]->value;
-                        bitMap   = bitMap<<1 |_pathMap[nodeTmp.row -0][nodeTmp.col +i]->value;
-                        bitMapDown = bitMapDown<<1 |_pathMap[nodeTmp.row +1][nodeTmp.col +i]->value;
+        if (p_right == dir)
+        {
+            // å»ºç«‹ä½åœ°å›¾
+            for (int i = 0; i < 32; i++)
+            {
+                if (0 <= nodeTmp.col + i && width > nodeTmp.col + i)
+                { // å¦‚æœåˆ—æ•°åœ¨åœ°å›¾åˆ—æ•°èŒƒå›´å†…
+                    if (0 <= nodeTmp.row - 1 && height > nodeTmp.row + 1)
+                    { // æ²¡è¶…å‡ºè¾…åŠ©èŠ‚ç‚¹åœ°å›¾
+                        bitMapUp = bitMapUp << 1 | _pathMap[nodeTmp.row - 1][nodeTmp.col + i]->value;
+                        bitMap = bitMap << 1 | _pathMap[nodeTmp.row - 0][nodeTmp.col + i]->value;
+                        bitMapDown = bitMapDown << 1 | _pathMap[nodeTmp.row + 1][nodeTmp.col + i]->value;
                     }
-                    if(0 > nodeTmp.row +1 ||height <= nodeTmp.row -1){//ÈıĞĞÈ«³¬³öµØÍ¼£¬È«ÖÃ1£¬µÈ¼ÛÎªÕÏ°­
-                        bitMapUp = bitMapUp<<1 |1;
-                        bitMap   = bitMap<<1 |1;
-                        bitMapDown = bitMapDown<<1 |1;
+                    if (0 > nodeTmp.row + 1 || height <= nodeTmp.row - 1)
+                    { // ä¸‰è¡Œå…¨è¶…å‡ºåœ°å›¾ï¼Œå…¨ç½®1ï¼Œç­‰ä»·ä¸ºéšœç¢
+                        bitMapUp = bitMapUp << 1 | 1;
+                        bitMap = bitMap << 1 | 1;
+                        bitMapDown = bitMapDown << 1 | 1;
                     }
-                    if(0 == nodeTmp.row +1){//ÉÏÁ½ĞĞ³¬³öµØÍ¼£¬ÉÏÁ½ĞĞÖÃ1£¬µÈ¼ÛÎªÕÏ°­
-                        bitMapUp = bitMapUp<<1 |1;
-                        bitMap   = bitMap   <<1 |1;
-                        bitMapDown = bitMapDown<<1 |_pathMap[nodeTmp.row +1][nodeTmp.col +i]->value;
+                    if (0 == nodeTmp.row + 1)
+                    { // ä¸Šä¸¤è¡Œè¶…å‡ºåœ°å›¾ï¼Œä¸Šä¸¤è¡Œç½®1ï¼Œç­‰ä»·ä¸ºéšœç¢
+                        bitMapUp = bitMapUp << 1 | 1;
+                        bitMap = bitMap << 1 | 1;
+                        bitMapDown = bitMapDown << 1 | _pathMap[nodeTmp.row + 1][nodeTmp.col + i]->value;
                     }
-                    if(height -1 == nodeTmp.row -1){//ÏÂÁ½ĞĞ³¬³öµØÍ¼£¬ÏÂÁ½ĞĞÖÃ1£¬µÈ¼ÛÎªÕÏ°­
-                        bitMapUp = bitMapUp<<1 |_pathMap[nodeTmp.row -1][nodeTmp.col +i]->value;
-                        bitMap   = bitMap   <<1 |1;
-                        bitMapDown = bitMapDown<<1 |1;
+                    if (height - 1 == nodeTmp.row - 1)
+                    { // ä¸‹ä¸¤è¡Œè¶…å‡ºåœ°å›¾ï¼Œä¸‹ä¸¤è¡Œç½®1ï¼Œç­‰ä»·ä¸ºéšœç¢
+                        bitMapUp = bitMapUp << 1 | _pathMap[nodeTmp.row - 1][nodeTmp.col + i]->value;
+                        bitMap = bitMap << 1 | 1;
+                        bitMapDown = bitMapDown << 1 | 1;
                     }
-                    if(0 == nodeTmp.row ||height -1 == nodeTmp.row){//ÖĞ¼äĞĞÔÚµØÍ¼ÉÏ»òÏÂ±ß½çÉÏ
-                        bitMap   = bitMap<<1 |_pathMap[nodeTmp.row -0][nodeTmp.col +i]->value;
-                        if(-1 == nodeTmp.row -1) bitMapUp = bitMapUp<<1 |1;//Èç¹ûÉÏÒ»ĞĞÊÇÉÏ±ß½çµÄÉÏÒ»ĞĞ£¬ÖÃ1
-                        else bitMapUp = bitMapUp<<1 |_pathMap[nodeTmp.row -1][nodeTmp.col +i]->value;
-                        if(height == nodeTmp.row +1) bitMapDown = bitMapDown<<1 |1;//Èç¹ûÏÂÒ»ĞĞÊÇÏÂ±ß½çµÄÏÂÒ»ĞĞ£¬ÖÃ1
-                        else bitMapDown = bitMapDown<<1 |_pathMap[nodeTmp.row +1][nodeTmp.col +i]->value;
+                    if (0 == nodeTmp.row || height - 1 == nodeTmp.row)
+                    { // ä¸­é—´è¡Œåœ¨åœ°å›¾ä¸Šæˆ–ä¸‹è¾¹ç•Œä¸Š
+                        bitMap = bitMap << 1 | _pathMap[nodeTmp.row - 0][nodeTmp.col + i]->value;
+                        if (-1 == nodeTmp.row - 1)
+                            bitMapUp = bitMapUp << 1 | 1; // å¦‚æœä¸Šä¸€è¡Œæ˜¯ä¸Šè¾¹ç•Œçš„ä¸Šä¸€è¡Œï¼Œç½®1
+                        else
+                            bitMapUp = bitMapUp << 1 | _pathMap[nodeTmp.row - 1][nodeTmp.col + i]->value;
+                        if (height == nodeTmp.row + 1)
+                            bitMapDown = bitMapDown << 1 | 1; // å¦‚æœä¸‹ä¸€è¡Œæ˜¯ä¸‹è¾¹ç•Œçš„ä¸‹ä¸€è¡Œï¼Œç½®1
+                        else
+                            bitMapDown = bitMapDown << 1 | _pathMap[nodeTmp.row + 1][nodeTmp.col + i]->value;
                     }
-
                 }
-                else{//Èç¹ûÁĞÊı²»ÔÚµØÍ¼ÁĞÊı·¶Î§ÄÚ
-                    bitMapUp = bitMapUp<<1 |1;
-                    bitMap   = bitMap<<1 |1;
-                    bitMapDown = bitMapDown<<1 |1;
+                else
+                { // å¦‚æœåˆ—æ•°ä¸åœ¨åœ°å›¾åˆ—æ•°èŒƒå›´å†…
+                    bitMapUp = bitMapUp << 1 | 1;
+                    bitMap = bitMap << 1 | 1;
+                    bitMapDown = bitMapDown << 1 | 1;
                 }
-            }//end - ½¨Á¢Î»µØÍ¼
-            //bit map test
-            //cout<<endl<<"bit map test:"<<bitMapUp<<" "<<bitMap<<" "<<bitMapDown<<endl;
-            //cout<<""<<currenNode.row<<","<<currenNode.col<<endl;
-            //cout<<"__builtin_clz(bitMap):"<<__builtin_clz(bitMap)<<endl;
+            } // end - å»ºç«‹ä½åœ°å›¾
+            // bit map test
+            // cout<<endl<<"bit map test:"<<bitMapUp<<" "<<bitMap<<" "<<bitMapDown<<endl;
+            // cout<<""<<currenNode.row<<","<<currenNode.col<<endl;
+            // cout<<"__builtin_clz(bitMap):"<<__builtin_clz(bitMap)<<endl;
 
             n = __builtin_clz(bitMap);
-            barrierUpBit = bitMapUp>>(32 -n-1) &1;//´ÓÎ»µØÍ¼ÖĞµÃµ½ÕÏ°­ÖÜÎ§µãÖµ
-            barrierLeftUpBit = bitMapUp>>(32 -n-1 +1) &1;
-            barrierDownBit = bitMapDown>>(32 -n-1) &1;
-            barrierLeftDownBit = bitMapDown>>(32 -n-1 +1) &1;
-            j = __builtin_clz(  ( (bitMapUp>>1)& (~bitMapUp)) |( (bitMapDown>>1)& (~bitMapDown)) );
-            if(31 == n && 31 == j){//Èç¹û¾àÀëµ±Ç°1-32¸ñÄÚÃ»ÕÒµ½Ìøµã£¬¾ÍÇĞ»»µ½µÚ30¸ñ
+            barrierUpBit = bitMapUp >> (32 - n - 1) & 1; // ä»ä½åœ°å›¾ä¸­å¾—åˆ°éšœç¢å‘¨å›´ç‚¹å€¼
+            barrierLeftUpBit = bitMapUp >> (32 - n - 1 + 1) & 1;
+            barrierDownBit = bitMapDown >> (32 - n - 1) & 1;
+            barrierLeftDownBit = bitMapDown >> (32 - n - 1 + 1) & 1;
+            j = __builtin_clz(((bitMapUp >> 1) & (~bitMapUp)) | ((bitMapDown >> 1) & (~bitMapDown)));
+            if (31 == n && 31 == j)
+            { // å¦‚æœè·ç¦»å½“å‰1-32æ ¼å†…æ²¡æ‰¾åˆ°è·³ç‚¹ï¼Œå°±åˆ‡æ¢åˆ°ç¬¬30æ ¼
                 nodeTmp.row = nodeTmp.row;
                 nodeTmp.col = nodeTmp.col + 30;
             }
-            else{
-                if(n <= j){
-                    if( (1 == barrierLeftUpBit ||1 == barrierUpBit) &&
-                       (1 == barrierLeftDownBit ||1 == barrierDownBit)
-                       ) return nullNode;//Èç¹û¸ÃÕÏ°­µãµÄ(×óÉÏ ||ÉÏ) && (×óÏÂ ||ÏÂ)µÄµãÎªÕÏ°­£¬Ö¤Ã÷´Ë´ÎËÑÑ°Ã»ÓĞÌøµã£¬Ö±½Ó·µ»Ø¿Õ½Úµã£»
+            else
+            {
+                if (n <= j)
+                {
+                    if ((1 == barrierLeftUpBit || 1 == barrierUpBit) &&
+                        (1 == barrierLeftDownBit || 1 == barrierDownBit))
+                        return nullNode; // å¦‚æœè¯¥éšœç¢ç‚¹çš„(å·¦ä¸Š ||ä¸Š) && (å·¦ä¸‹ ||ä¸‹)çš„ç‚¹ä¸ºéšœç¢ï¼Œè¯æ˜æ­¤æ¬¡æœå¯»æ²¡æœ‰è·³ç‚¹ï¼Œç›´æ¥è¿”å›ç©ºèŠ‚ç‚¹ï¼›
                     jumpNode.row = nodeTmp.row;
-                    jumpNode.col = nodeTmp.col +n-1;
+                    jumpNode.col = nodeTmp.col + n - 1;
                     return jumpNode;
                 }
-                if(n > j){
+                if (n > j)
+                {
                     jumpNode.row = nodeTmp.row;
-                    jumpNode.col = nodeTmp.col +j-1;
+                    jumpNode.col = nodeTmp.col + j - 1;
                     return jumpNode;
                 }
             }
-
         }
-        if(p_left == dir){
-            //½¨Á¢Î»µØÍ¼
-            for(int i=0;i < 32;i++){
-                if(0 <= nodeTmp.col -i && width >nodeTmp.col -i){//Èç¹ûÁĞÊıÔÚµØÍ¼ÁĞÊı·¶Î§ÄÚ
-                    if(0 <= nodeTmp.row -1 && height >nodeTmp.row +1){//Ã»³¬³ö¸¨Öú½ÚµãµØÍ¼
-                        bitMapUp = bitMapUp<<1 |_pathMap[nodeTmp.row -1][nodeTmp.col -i]->value;
-                        bitMap   = bitMap<<1 |_pathMap[nodeTmp.row -0][nodeTmp.col -i]->value;
-                        bitMapDown = bitMapDown<<1 |_pathMap[nodeTmp.row +1][nodeTmp.col -i]->value;
+        if (p_left == dir)
+        {
+            // å»ºç«‹ä½åœ°å›¾
+            for (int i = 0; i < 32; i++)
+            {
+                if (0 <= nodeTmp.col - i && width > nodeTmp.col - i)
+                { // å¦‚æœåˆ—æ•°åœ¨åœ°å›¾åˆ—æ•°èŒƒå›´å†…
+                    if (0 <= nodeTmp.row - 1 && height > nodeTmp.row + 1)
+                    { // æ²¡è¶…å‡ºè¾…åŠ©èŠ‚ç‚¹åœ°å›¾
+                        bitMapUp = bitMapUp << 1 | _pathMap[nodeTmp.row - 1][nodeTmp.col - i]->value;
+                        bitMap = bitMap << 1 | _pathMap[nodeTmp.row - 0][nodeTmp.col - i]->value;
+                        bitMapDown = bitMapDown << 1 | _pathMap[nodeTmp.row + 1][nodeTmp.col - i]->value;
                     }
-                    if(0 > nodeTmp.row +1 ||height <= nodeTmp.row -1){//ÈıĞĞÈ«³¬³öµØÍ¼£¬È«ÖÃ1£¬µÈ¼ÛÎªÕÏ°­
-                        bitMapUp = bitMapUp<<1 |1;
-                        bitMap   = bitMap<<1 |1;
-                        bitMapDown = bitMapDown<<1 |1;
+                    if (0 > nodeTmp.row + 1 || height <= nodeTmp.row - 1)
+                    { // ä¸‰è¡Œå…¨è¶…å‡ºåœ°å›¾ï¼Œå…¨ç½®1ï¼Œç­‰ä»·ä¸ºéšœç¢
+                        bitMapUp = bitMapUp << 1 | 1;
+                        bitMap = bitMap << 1 | 1;
+                        bitMapDown = bitMapDown << 1 | 1;
                     }
-                    if(0 == nodeTmp.row +1){//ÉÏÁ½ĞĞ³¬³öµØÍ¼£¬ÉÏÁ½ĞĞÖÃ1£¬µÈ¼ÛÎªÕÏ°­
-                        bitMapUp = bitMapUp<<1 |1;
-                        bitMap   = bitMap   <<1 |1;
-                        bitMapDown = bitMapDown<<1 |_pathMap[nodeTmp.row +1][nodeTmp.col -i]->value;
+                    if (0 == nodeTmp.row + 1)
+                    { // ä¸Šä¸¤è¡Œè¶…å‡ºåœ°å›¾ï¼Œä¸Šä¸¤è¡Œç½®1ï¼Œç­‰ä»·ä¸ºéšœç¢
+                        bitMapUp = bitMapUp << 1 | 1;
+                        bitMap = bitMap << 1 | 1;
+                        bitMapDown = bitMapDown << 1 | _pathMap[nodeTmp.row + 1][nodeTmp.col - i]->value;
                     }
-                    if(height -1 == nodeTmp.row -1){//ÏÂÁ½ĞĞ³¬³öµØÍ¼£¬ÏÂÁ½ĞĞÖÃ1£¬µÈ¼ÛÎªÕÏ°­
-                        bitMapUp = bitMapUp<<1 |_pathMap[nodeTmp.row -1][nodeTmp.col -i]->value;
-                        bitMap   = bitMap   <<1 |1;
-                        bitMapDown = bitMapDown<<1 |1;
+                    if (height - 1 == nodeTmp.row - 1)
+                    { // ä¸‹ä¸¤è¡Œè¶…å‡ºåœ°å›¾ï¼Œä¸‹ä¸¤è¡Œç½®1ï¼Œç­‰ä»·ä¸ºéšœç¢
+                        bitMapUp = bitMapUp << 1 | _pathMap[nodeTmp.row - 1][nodeTmp.col - i]->value;
+                        bitMap = bitMap << 1 | 1;
+                        bitMapDown = bitMapDown << 1 | 1;
                     }
-                    if(0 == nodeTmp.row ||height -1 == nodeTmp.row){//ÖĞ¼äĞĞÔÚµØÍ¼ÉÏ»òÏÂ±ß½çÉÏ
-                        bitMap   = bitMap<<1 |_pathMap[nodeTmp.row -0][nodeTmp.col -i]->value;
-                        if(-1 == nodeTmp.row -1) bitMapUp = bitMapUp<<1 |1;//Èç¹ûÉÏÒ»ĞĞÊÇÉÏ±ß½çµÄÉÏÒ»ĞĞ£¬ÖÃ1
-                        else bitMapUp = bitMapUp<<1 |_pathMap[nodeTmp.row -1][nodeTmp.col -i]->value;
-                        if(height == nodeTmp.row +1) bitMapDown = bitMapDown<<1 |1;//Èç¹ûÏÂÒ»ĞĞÊÇÏÂ±ß½çµÄÏÂÒ»ĞĞ£¬ÖÃ1
-                        else bitMapDown = bitMapDown<<1 |_pathMap[nodeTmp.row +1][nodeTmp.col -i]->value;
+                    if (0 == nodeTmp.row || height - 1 == nodeTmp.row)
+                    { // ä¸­é—´è¡Œåœ¨åœ°å›¾ä¸Šæˆ–ä¸‹è¾¹ç•Œä¸Š
+                        bitMap = bitMap << 1 | _pathMap[nodeTmp.row - 0][nodeTmp.col - i]->value;
+                        if (-1 == nodeTmp.row - 1)
+                            bitMapUp = bitMapUp << 1 | 1; // å¦‚æœä¸Šä¸€è¡Œæ˜¯ä¸Šè¾¹ç•Œçš„ä¸Šä¸€è¡Œï¼Œç½®1
+                        else
+                            bitMapUp = bitMapUp << 1 | _pathMap[nodeTmp.row - 1][nodeTmp.col - i]->value;
+                        if (height == nodeTmp.row + 1)
+                            bitMapDown = bitMapDown << 1 | 1; // å¦‚æœä¸‹ä¸€è¡Œæ˜¯ä¸‹è¾¹ç•Œçš„ä¸‹ä¸€è¡Œï¼Œç½®1
+                        else
+                            bitMapDown = bitMapDown << 1 | _pathMap[nodeTmp.row + 1][nodeTmp.col - i]->value;
                     }
-
                 }
-                else{//Èç¹ûÁĞÊı²»ÔÚµØÍ¼ÁĞÊı·¶Î§ÄÚ
-                    bitMapUp = bitMapUp<<1 |1;
-                    bitMap   = bitMap<<1 |1;
-                    bitMapDown = bitMapDown<<1 |1;
+                else
+                { // å¦‚æœåˆ—æ•°ä¸åœ¨åœ°å›¾åˆ—æ•°èŒƒå›´å†…
+                    bitMapUp = bitMapUp << 1 | 1;
+                    bitMap = bitMap << 1 | 1;
+                    bitMapDown = bitMapDown << 1 | 1;
                 }
-            }//end - ½¨Á¢Î»µØÍ¼
-            //bit map test
-            //cout<<endl<<"bit map test:"<<bitMapUp<<" "<<bitMap<<" "<<bitMapDown<<endl;
-            //cout<<""<<currenNode.row<<","<<currenNode.col<<endl;
-            //cout<<"__builtin_clz(bitMap):"<<__builtin_clz(bitMap)<<endl;
+            } // end - å»ºç«‹ä½åœ°å›¾
+            // bit map test
+            // cout<<endl<<"bit map test:"<<bitMapUp<<" "<<bitMap<<" "<<bitMapDown<<endl;
+            // cout<<""<<currenNode.row<<","<<currenNode.col<<endl;
+            // cout<<"__builtin_clz(bitMap):"<<__builtin_clz(bitMap)<<endl;
 
             n = __builtin_clz(bitMap);
-            barrierUpBit = bitMapUp>>(32 -n-1) &1;//´ÓÎ»µØÍ¼ÖĞµÃµ½ÕÏ°­ÖÜÎ§µãÖµ
-            barrierRightUpBit = bitMapUp>>(32 -n-1 +1) &1;
-            barrierDownBit = bitMapDown>>(32 -n-1) &1;
-            barrierRightDownBit = bitMapDown>>(32 -n-1 +1) &1;
-            j = __builtin_clz(  ( (bitMapUp>>1)& (~bitMapUp)) |( (bitMapDown>>1)& (~bitMapDown)) );
-            if(31 == n && 31 == j){//Èç¹û¾àÀëµ±Ç°1-32¸ñÄÚÃ»ÕÒµ½Ìøµã£¬¾ÍÇĞ»»µ½µÚ30¸ñ
+            barrierUpBit = bitMapUp >> (32 - n - 1) & 1; // ä»ä½åœ°å›¾ä¸­å¾—åˆ°éšœç¢å‘¨å›´ç‚¹å€¼
+            barrierRightUpBit = bitMapUp >> (32 - n - 1 + 1) & 1;
+            barrierDownBit = bitMapDown >> (32 - n - 1) & 1;
+            barrierRightDownBit = bitMapDown >> (32 - n - 1 + 1) & 1;
+            j = __builtin_clz(((bitMapUp >> 1) & (~bitMapUp)) | ((bitMapDown >> 1) & (~bitMapDown)));
+            if (31 == n && 31 == j)
+            { // å¦‚æœè·ç¦»å½“å‰1-32æ ¼å†…æ²¡æ‰¾åˆ°è·³ç‚¹ï¼Œå°±åˆ‡æ¢åˆ°ç¬¬30æ ¼
                 nodeTmp.row = nodeTmp.row;
                 nodeTmp.col = nodeTmp.col - 30;
             }
-            else{
-                if(n <= j){
-                    if( (1 == barrierRightUpBit ||1 == barrierUpBit) &&
-                       (1 == barrierRightDownBit ||1 == barrierDownBit)
-                       ) return nullNode;//Èç¹û¸ÃÕÏ°­µãµÄ(ÓÒÉÏ ||ÉÏ) && (ÓÒÏÂ ||ÏÂ)µÄµãÎªÕÏ°­£¬Ö¤Ã÷´Ë´ÎËÑÑ°Ã»ÓĞÌøµã£¬Ö±½Ó·µ»Ø¿Õ½Úµã£»
+            else
+            {
+                if (n <= j)
+                {
+                    if ((1 == barrierRightUpBit || 1 == barrierUpBit) &&
+                        (1 == barrierRightDownBit || 1 == barrierDownBit))
+                        return nullNode; // å¦‚æœè¯¥éšœç¢ç‚¹çš„(å³ä¸Š ||ä¸Š) && (å³ä¸‹ ||ä¸‹)çš„ç‚¹ä¸ºéšœç¢ï¼Œè¯æ˜æ­¤æ¬¡æœå¯»æ²¡æœ‰è·³ç‚¹ï¼Œç›´æ¥è¿”å›ç©ºèŠ‚ç‚¹ï¼›
                     jumpNode.row = nodeTmp.row;
-                    jumpNode.col = nodeTmp.col -n+1;
+                    jumpNode.col = nodeTmp.col - n + 1;
                     return jumpNode;
                 }
-                if(n > j){
+                if (n > j)
+                {
                     jumpNode.row = nodeTmp.row;
-                    jumpNode.col = nodeTmp.col -j+1;
+                    jumpNode.col = nodeTmp.col - j + 1;
                     return jumpNode;
                 }
             }
 
-        }//end-if(p_left == dir)
-        if(p_down == dir){
-            //½¨Á¢Î»µØÍ¼
-            for(int i=0;i < 32;i++){
-                if(0 <= nodeTmp.row +i && height >nodeTmp.row +i){//Èç¹ûĞĞÊıÔÚµØÍ¼ĞĞÊı·¶Î§ÄÚ
-                    if(0 <= nodeTmp.col -1 && width >nodeTmp.col +1){//Ã»³¬³ö¸¨Öú½ÚµãµØÍ¼
-                        bitMapLeft = bitMapLeft<<1 |_pathMap[nodeTmp.row +i][nodeTmp.col -1]->value;
-                        bitMap   = bitMap<<1 |_pathMap[nodeTmp.row +i][nodeTmp.col + 0]->value;
-                        bitMapRight = bitMapRight<<1 |_pathMap[nodeTmp.row +i][nodeTmp.col +1]->value;
+        } // end-if(p_left == dir)
+        if (p_down == dir)
+        {
+            // å»ºç«‹ä½åœ°å›¾
+            for (int i = 0; i < 32; i++)
+            {
+                if (0 <= nodeTmp.row + i && height > nodeTmp.row + i)
+                { // å¦‚æœè¡Œæ•°åœ¨åœ°å›¾è¡Œæ•°èŒƒå›´å†…
+                    if (0 <= nodeTmp.col - 1 && width > nodeTmp.col + 1)
+                    { // æ²¡è¶…å‡ºè¾…åŠ©èŠ‚ç‚¹åœ°å›¾
+                        bitMapLeft = bitMapLeft << 1 | _pathMap[nodeTmp.row + i][nodeTmp.col - 1]->value;
+                        bitMap = bitMap << 1 | _pathMap[nodeTmp.row + i][nodeTmp.col + 0]->value;
+                        bitMapRight = bitMapRight << 1 | _pathMap[nodeTmp.row + i][nodeTmp.col + 1]->value;
                     }
-                    if(0 > nodeTmp.col +1 ||width <= nodeTmp.col -1){//ÈıÁĞÈ«³¬³öµØÍ¼£¬È«ÖÃ1£¬µÈ¼ÛÎªÕÏ°­
-                        bitMapLeft = bitMapLeft<<1 |1;
-                        bitMap   = bitMap<<1 |1;
-                        bitMapRight = bitMapRight<<1 |1;
+                    if (0 > nodeTmp.col + 1 || width <= nodeTmp.col - 1)
+                    { // ä¸‰åˆ—å…¨è¶…å‡ºåœ°å›¾ï¼Œå…¨ç½®1ï¼Œç­‰ä»·ä¸ºéšœç¢
+                        bitMapLeft = bitMapLeft << 1 | 1;
+                        bitMap = bitMap << 1 | 1;
+                        bitMapRight = bitMapRight << 1 | 1;
                     }
-                    if(0 == nodeTmp.col +1){//×óÁ½ÁĞ³¬³öµØÍ¼£¬×óÁ½ĞĞÖÃ1£¬µÈ¼ÛÎªÕÏ°­
-                        bitMapLeft = bitMapLeft<<1 |1;
-                        bitMap   = bitMap   <<1 |1;
-                        bitMapRight = bitMapRight<<1 |_pathMap[nodeTmp.row +i][nodeTmp.col +1]->value;
+                    if (0 == nodeTmp.col + 1)
+                    { // å·¦ä¸¤åˆ—è¶…å‡ºåœ°å›¾ï¼Œå·¦ä¸¤è¡Œç½®1ï¼Œç­‰ä»·ä¸ºéšœç¢
+                        bitMapLeft = bitMapLeft << 1 | 1;
+                        bitMap = bitMap << 1 | 1;
+                        bitMapRight = bitMapRight << 1 | _pathMap[nodeTmp.row + i][nodeTmp.col + 1]->value;
                     }
-                    if(width -1 == nodeTmp.col -1){//ÓÒÁ½ÁĞ³¬³öµØÍ¼£¬ÓÒÁ½ĞĞÖÃ1£¬µÈ¼ÛÎªÕÏ°­
-                        bitMapLeft = bitMapLeft<<1 |_pathMap[nodeTmp.row +i][nodeTmp.col -1]->value;
-                        bitMap   = bitMap   <<1 |1;
-                        bitMapRight = bitMapRight<<1 |1;
+                    if (width - 1 == nodeTmp.col - 1)
+                    { // å³ä¸¤åˆ—è¶…å‡ºåœ°å›¾ï¼Œå³ä¸¤è¡Œç½®1ï¼Œç­‰ä»·ä¸ºéšœç¢
+                        bitMapLeft = bitMapLeft << 1 | _pathMap[nodeTmp.row + i][nodeTmp.col - 1]->value;
+                        bitMap = bitMap << 1 | 1;
+                        bitMapRight = bitMapRight << 1 | 1;
                     }
-                    if(0 == nodeTmp.col ||width -1 == nodeTmp.col){//ÖĞ¼äÁĞÔÚµØÍ¼×ó»òÓÒ±ß½çÉÏ
-                        bitMap   = bitMap<<1 |_pathMap[nodeTmp.row +i][nodeTmp.col]->value;
-                        if(-1 == nodeTmp.col -1) bitMapLeft = bitMapLeft<<1 |1;//Èç¹û×óÒ»ÁĞÊÇ×ó±ß½çµÄ×óÒ»ÁĞ£¬ÖÃ1
-                        else bitMapLeft = bitMapLeft<<1 |_pathMap[nodeTmp.row +i][nodeTmp.col -1]->value;
-                        if(width == nodeTmp.col +1) bitMapRight = bitMapRight<<1 |1;//Èç¹ûÓÒÒ»ÁĞÊÇÓÒ±ß½çµÄÓÒÒ»ÁĞ£¬ÖÃ1
-                        else bitMapRight = bitMapRight<<1 |_pathMap[nodeTmp.row +i][nodeTmp.col +1]->value;
+                    if (0 == nodeTmp.col || width - 1 == nodeTmp.col)
+                    { // ä¸­é—´åˆ—åœ¨åœ°å›¾å·¦æˆ–å³è¾¹ç•Œä¸Š
+                        bitMap = bitMap << 1 | _pathMap[nodeTmp.row + i][nodeTmp.col]->value;
+                        if (-1 == nodeTmp.col - 1)
+                            bitMapLeft = bitMapLeft << 1 | 1; // å¦‚æœå·¦ä¸€åˆ—æ˜¯å·¦è¾¹ç•Œçš„å·¦ä¸€åˆ—ï¼Œç½®1
+                        else
+                            bitMapLeft = bitMapLeft << 1 | _pathMap[nodeTmp.row + i][nodeTmp.col - 1]->value;
+                        if (width == nodeTmp.col + 1)
+                            bitMapRight = bitMapRight << 1 | 1; // å¦‚æœå³ä¸€åˆ—æ˜¯å³è¾¹ç•Œçš„å³ä¸€åˆ—ï¼Œç½®1
+                        else
+                            bitMapRight = bitMapRight << 1 | _pathMap[nodeTmp.row + i][nodeTmp.col + 1]->value;
                     }
-
                 }
-                else{//Èç¹ûĞĞÊı²»ÔÚµØÍ¼ÁĞÊı·¶Î§ÄÚ
-                    bitMapLeft = bitMapLeft<<1 |1;
-                    bitMap   = bitMap<<1 |1;
-                    bitMapRight = bitMapRight<<1 |1;
+                else
+                { // å¦‚æœè¡Œæ•°ä¸åœ¨åœ°å›¾åˆ—æ•°èŒƒå›´å†…
+                    bitMapLeft = bitMapLeft << 1 | 1;
+                    bitMap = bitMap << 1 | 1;
+                    bitMapRight = bitMapRight << 1 | 1;
                 }
-            }//end - ½¨Á¢Î»µØÍ¼
-            //bit map test
-            //cout<<endl<<"bit map test:"<<bitMapLeft<<" "<<bitMap<<" "<<bitMapRight<<endl;
-            //cout<<""<<currenNode.row<<","<<currenNode.col<<endl;
-            //cout<<"__builtin_clz(bitMap):"<<__builtin_clz(bitMap)<<endl;
+            } // end - å»ºç«‹ä½åœ°å›¾
+            // bit map test
+            // cout<<endl<<"bit map test:"<<bitMapLeft<<" "<<bitMap<<" "<<bitMapRight<<endl;
+            // cout<<""<<currenNode.row<<","<<currenNode.col<<endl;
+            // cout<<"__builtin_clz(bitMap):"<<__builtin_clz(bitMap)<<endl;
 
             n = __builtin_clz(bitMap);
-            barrierLeftBit = bitMapLeft>>(32 -n-1) &1;//´ÓÎ»µØÍ¼ÖĞµÃµ½ÕÏ°­ÖÜÎ§µãÖµ
-            barrierLeftUpBit = bitMapLeft>>(32 -n-1 +1) &1;
-            barrierRightBit = bitMapRight>>(32 -n-1) &1;
-            barrierRightUpBit = bitMapRight>>(32 -n-1 +1) &1;
+            barrierLeftBit = bitMapLeft >> (32 - n - 1) & 1; // ä»ä½åœ°å›¾ä¸­å¾—åˆ°éšœç¢å‘¨å›´ç‚¹å€¼
+            barrierLeftUpBit = bitMapLeft >> (32 - n - 1 + 1) & 1;
+            barrierRightBit = bitMapRight >> (32 - n - 1) & 1;
+            barrierRightUpBit = bitMapRight >> (32 - n - 1 + 1) & 1;
 
-            j = __builtin_clz( ( (bitMapLeft>>1)& (~bitMapLeft)) |( (bitMapRight>>1)& (~bitMapRight)) );
-            if(31 == n && 31 == j){ //__builtin_clz( (unsigned int)0 ) µÄÖµÎª31
+            j = __builtin_clz(((bitMapLeft >> 1) & (~bitMapLeft)) | ((bitMapRight >> 1) & (~bitMapRight)));
+            if (31 == n && 31 == j)
+            { //__builtin_clz( (unsigned int)0 ) çš„å€¼ä¸º31
                 nodeTmp.row = nodeTmp.row + 30;
                 nodeTmp.col = nodeTmp.col;
             }
-            else{
-                if(n <= j){
-                    if( (1 == barrierLeftUpBit ||1 == barrierLeftBit) &&
-                       (1 == barrierRightUpBit ||1 == barrierRightBit)
-                       ) return nullNode;//Èç¹û¸ÃÕÏ°­µãµÄ(×óÉÏ ||×ó) && (ÓÒÉÏ ||ÓÒ)µÄµãÎªÕÏ°­£¬Ö¤Ã÷´Ë´ÎËÑÑ°Ã»ÓĞÌøµã£¬Ö±½Ó·µ»Ø¿Õ½Úµã£»
-                    jumpNode.row = nodeTmp.row +n-1;
+            else
+            {
+                if (n <= j)
+                {
+                    if ((1 == barrierLeftUpBit || 1 == barrierLeftBit) &&
+                        (1 == barrierRightUpBit || 1 == barrierRightBit))
+                        return nullNode; // å¦‚æœè¯¥éšœç¢ç‚¹çš„(å·¦ä¸Š ||å·¦) && (å³ä¸Š ||å³)çš„ç‚¹ä¸ºéšœç¢ï¼Œè¯æ˜æ­¤æ¬¡æœå¯»æ²¡æœ‰è·³ç‚¹ï¼Œç›´æ¥è¿”å›ç©ºèŠ‚ç‚¹ï¼›
+                    jumpNode.row = nodeTmp.row + n - 1;
                     jumpNode.col = nodeTmp.col;
                     return jumpNode;
                 }
-                if(n > j){
-                    jumpNode.row = nodeTmp.row +j-1;
+                if (n > j)
+                {
+                    jumpNode.row = nodeTmp.row + j - 1;
                     jumpNode.col = nodeTmp.col;
                     return jumpNode;
                 }
             }
-        }//end-if(p_down == dir)
-        if(p_up == dir){
-            //½¨Á¢Î»µØÍ¼
-            for(int i=0;i < 32;i++){
-                if(0 <= nodeTmp.row -i && height >nodeTmp.row -i){//Èç¹ûĞĞÊıÔÚµØÍ¼ĞĞÊı·¶Î§ÄÚ
-                    if(0 <= nodeTmp.col -1 && width >nodeTmp.col +1){//µ±Ç°ÁĞÃ»³¬³ö¸¨Öú½ÚµãµØÍ¼
-                        bitMapLeft = bitMapLeft<<1 |_pathMap[nodeTmp.row -i][nodeTmp.col -1]->value;
-                        bitMap   = bitMap<<1 |_pathMap[nodeTmp.row -i][nodeTmp.col + 0]->value;
-                        bitMapRight = bitMapRight<<1 |_pathMap[nodeTmp.row -i][nodeTmp.col +1]->value;
+        } // end-if(p_down == dir)
+        if (p_up == dir)
+        {
+            // å»ºç«‹ä½åœ°å›¾
+            for (int i = 0; i < 32; i++)
+            {
+                if (0 <= nodeTmp.row - i && height > nodeTmp.row - i)
+                { // å¦‚æœè¡Œæ•°åœ¨åœ°å›¾è¡Œæ•°èŒƒå›´å†…
+                    if (0 <= nodeTmp.col - 1 && width > nodeTmp.col + 1)
+                    { // å½“å‰åˆ—æ²¡è¶…å‡ºè¾…åŠ©èŠ‚ç‚¹åœ°å›¾
+                        bitMapLeft = bitMapLeft << 1 | _pathMap[nodeTmp.row - i][nodeTmp.col - 1]->value;
+                        bitMap = bitMap << 1 | _pathMap[nodeTmp.row - i][nodeTmp.col + 0]->value;
+                        bitMapRight = bitMapRight << 1 | _pathMap[nodeTmp.row - i][nodeTmp.col + 1]->value;
                     }
-                    if(0 > nodeTmp.col +1 ||width <= nodeTmp.col -1){//ÈıÁĞÈ«³¬³öµØÍ¼£¬È«ÖÃ1£¬µÈ¼ÛÎªÕÏ°­
-                        bitMapLeft = bitMapLeft<<1 |1;
-                        bitMap   = bitMap<<1 |1;
-                        bitMapRight = bitMapRight<<1 |1;
+                    if (0 > nodeTmp.col + 1 || width <= nodeTmp.col - 1)
+                    { // ä¸‰åˆ—å…¨è¶…å‡ºåœ°å›¾ï¼Œå…¨ç½®1ï¼Œç­‰ä»·ä¸ºéšœç¢
+                        bitMapLeft = bitMapLeft << 1 | 1;
+                        bitMap = bitMap << 1 | 1;
+                        bitMapRight = bitMapRight << 1 | 1;
                     }
-                    if(0 == nodeTmp.col +1){//×óÁ½ÁĞ³¬³öµØÍ¼£¬×óÁ½ÁĞÖÃ1£¬µÈ¼ÛÎªÕÏ°­
-                        bitMapLeft = bitMapLeft<<1 |1;
-                        bitMap   = bitMap   <<1 |1;
-                        bitMapRight = bitMapRight<<1 |_pathMap[nodeTmp.row -i][nodeTmp.col +1]->value;
+                    if (0 == nodeTmp.col + 1)
+                    { // å·¦ä¸¤åˆ—è¶…å‡ºåœ°å›¾ï¼Œå·¦ä¸¤åˆ—ç½®1ï¼Œç­‰ä»·ä¸ºéšœç¢
+                        bitMapLeft = bitMapLeft << 1 | 1;
+                        bitMap = bitMap << 1 | 1;
+                        bitMapRight = bitMapRight << 1 | _pathMap[nodeTmp.row - i][nodeTmp.col + 1]->value;
                     }
-                    if(width -1 == nodeTmp.col -1){//ÓÒÁ½ÁĞ³¬³öµØÍ¼£¬ÓÒÁ½ÁĞÖÃ1£¬µÈ¼ÛÎªÕÏ°­
-                        bitMapLeft = bitMapLeft<<1 |_pathMap[nodeTmp.row -i][nodeTmp.col -1]->value;
-                        bitMap   = bitMap   <<1 |1;
-                        bitMapRight = bitMapRight<<1 |1;
+                    if (width - 1 == nodeTmp.col - 1)
+                    { // å³ä¸¤åˆ—è¶…å‡ºåœ°å›¾ï¼Œå³ä¸¤åˆ—ç½®1ï¼Œç­‰ä»·ä¸ºéšœç¢
+                        bitMapLeft = bitMapLeft << 1 | _pathMap[nodeTmp.row - i][nodeTmp.col - 1]->value;
+                        bitMap = bitMap << 1 | 1;
+                        bitMapRight = bitMapRight << 1 | 1;
                     }
-                    if(0 == nodeTmp.col ||width -1 == nodeTmp.col){//ÖĞ¼äÁĞÔÚµØÍ¼×ó»òÓÒ±ß½çÉÏ
-                        bitMap   = bitMap<<1 |_pathMap[nodeTmp.row -i][nodeTmp.col]->value;
-                        if(-1 == nodeTmp.col -1) bitMapLeft = bitMapLeft<<1 |1;//Èç¹û×óÒ»ÁĞÊÇ×ó±ß½çµÄ×óÒ»ÁĞ£¬ÖÃ1
-                        else bitMapLeft = bitMapLeft<<1 |_pathMap[nodeTmp.row -i][nodeTmp.col -1]->value;
-                        if(width == nodeTmp.col +1) bitMapRight = bitMapRight<<1 |1;//Èç¹ûÓÒÒ»ÁĞÊÇÓÒ±ß½çµÄÓÒÒ»ÁĞ£¬ÖÃ1
-                        else bitMapRight = bitMapRight<<1 |_pathMap[nodeTmp.row -i][nodeTmp.col +1]->value;
+                    if (0 == nodeTmp.col || width - 1 == nodeTmp.col)
+                    { // ä¸­é—´åˆ—åœ¨åœ°å›¾å·¦æˆ–å³è¾¹ç•Œä¸Š
+                        bitMap = bitMap << 1 | _pathMap[nodeTmp.row - i][nodeTmp.col]->value;
+                        if (-1 == nodeTmp.col - 1)
+                            bitMapLeft = bitMapLeft << 1 | 1; // å¦‚æœå·¦ä¸€åˆ—æ˜¯å·¦è¾¹ç•Œçš„å·¦ä¸€åˆ—ï¼Œç½®1
+                        else
+                            bitMapLeft = bitMapLeft << 1 | _pathMap[nodeTmp.row - i][nodeTmp.col - 1]->value;
+                        if (width == nodeTmp.col + 1)
+                            bitMapRight = bitMapRight << 1 | 1; // å¦‚æœå³ä¸€åˆ—æ˜¯å³è¾¹ç•Œçš„å³ä¸€åˆ—ï¼Œç½®1
+                        else
+                            bitMapRight = bitMapRight << 1 | _pathMap[nodeTmp.row - i][nodeTmp.col + 1]->value;
                     }
-
                 }
-                else{//Èç¹ûÁĞÊı²»ÔÚµØÍ¼ÁĞÊı·¶Î§ÄÚ
-                    bitMapLeft = bitMapLeft<<1 |1;
-                    bitMap   = bitMap<<1 |1;
-                    bitMapRight = bitMapRight<<1 |1;
+                else
+                { // å¦‚æœåˆ—æ•°ä¸åœ¨åœ°å›¾åˆ—æ•°èŒƒå›´å†…
+                    bitMapLeft = bitMapLeft << 1 | 1;
+                    bitMap = bitMap << 1 | 1;
+                    bitMapRight = bitMapRight << 1 | 1;
                 }
-            }//end - ½¨Á¢Î»µØÍ¼
-            //bit map test
-            //cout<<endl<<"bit map test:"<<bitMapLeft<<" "<<bitMap<<" "<<bitMapRight<<endl;
-            //cout<<""<<currenNode.row<<","<<currenNode.col<<endl;
-            //cout<<"__builtin_clz(bitMap):"<<__builtin_clz(bitMap)<<endl;
+            } // end - å»ºç«‹ä½åœ°å›¾
+            // bit map test
+            // cout<<endl<<"bit map test:"<<bitMapLeft<<" "<<bitMap<<" "<<bitMapRight<<endl;
+            // cout<<""<<currenNode.row<<","<<currenNode.col<<endl;
+            // cout<<"__builtin_clz(bitMap):"<<__builtin_clz(bitMap)<<endl;
 
             n = __builtin_clz(bitMap);
-            barrierLeftBit = bitMapLeft>>(32 -n-1) &1;//´ÓÎ»µØÍ¼ÖĞµÃµ½ÕÏ°­ÖÜÎ§µãÖµ
-            barrierLeftDownBit = bitMapLeft>>(32 -n-1 +1) &1;
-            barrierRightBit = bitMapRight>>(32 -n-1) &1;
-            barrierRightDownBit = bitMapRight>>(32 -n-1 +1) &1;
+            barrierLeftBit = bitMapLeft >> (32 - n - 1) & 1; // ä»ä½åœ°å›¾ä¸­å¾—åˆ°éšœç¢å‘¨å›´ç‚¹å€¼
+            barrierLeftDownBit = bitMapLeft >> (32 - n - 1 + 1) & 1;
+            barrierRightBit = bitMapRight >> (32 - n - 1) & 1;
+            barrierRightDownBit = bitMapRight >> (32 - n - 1 + 1) & 1;
 
-            j = __builtin_clz( ( (bitMapLeft>>1)& (~bitMapLeft)) |( (bitMapRight>>1)& (~bitMapRight)) );
-            if(31 == n && 31 == j){ //__builtin_clz( (unsigned int)0 ) µÄÖµÎª31
+            j = __builtin_clz(((bitMapLeft >> 1) & (~bitMapLeft)) | ((bitMapRight >> 1) & (~bitMapRight)));
+            if (31 == n && 31 == j)
+            { //__builtin_clz( (unsigned int)0 ) çš„å€¼ä¸º31
                 nodeTmp.row = nodeTmp.row + 30;
                 nodeTmp.col = nodeTmp.col;
             }
-            else{
-                if(n <= j){
-                    if( (1 == barrierLeftDownBit ||1 == barrierLeftBit) &&
-                       (1 == barrierRightDownBit ||1 == barrierRightBit)
-                       ) return nullNode;//Èç¹û¸ÃÕÏ°­µãµÄ(×óÉÏ ||×ó) && (ÓÒÉÏ ||ÓÒ)µÄµãÎªÕÏ°­£¬Ö¤Ã÷´Ë´ÎËÑÑ°Ã»ÓĞÌøµã£¬Ö±½Ó·µ»Ø¿Õ½Úµã£»
-                    jumpNode.row = nodeTmp.row -n+1;
+            else
+            {
+                if (n <= j)
+                {
+                    if ((1 == barrierLeftDownBit || 1 == barrierLeftBit) &&
+                        (1 == barrierRightDownBit || 1 == barrierRightBit))
+                        return nullNode; // å¦‚æœè¯¥éšœç¢ç‚¹çš„(å·¦ä¸Š ||å·¦) && (å³ä¸Š ||å³)çš„ç‚¹ä¸ºéšœç¢ï¼Œè¯æ˜æ­¤æ¬¡æœå¯»æ²¡æœ‰è·³ç‚¹ï¼Œç›´æ¥è¿”å›ç©ºèŠ‚ç‚¹ï¼›
+                    jumpNode.row = nodeTmp.row - n + 1;
                     jumpNode.col = nodeTmp.col;
                     return jumpNode;
                 }
-                if(n > j){
-                    jumpNode.row = nodeTmp.row -j+1;
+                if (n > j)
+                {
+                    jumpNode.row = nodeTmp.row - j + 1;
                     jumpNode.col = nodeTmp.col;
                     return jumpNode;
                 }
             }
-        }//end-if(p_up == dir)
-
+        } // end-if(p_up == dir)
     }
 
     return nullNode;
 }
 
-
-Jps::PathNode* Jps::JumpOblique(PathNode*** _pathMap,PathNode currenNode,Direct dir){
+Jps::PathNode *Jps::JumpOblique(PathNode ***_pathMap, PathNode currenNode, Direct dir)
+{
     static PathNode retNode[3];
     int delta_x = 0;
     int delta_y = 0;
     short unitMap = 0;
-    char valueT = 0;//´æ´¢¸¨ÖúµØÍ¼ÖĞµãµÄÁÙÊ±Öµ£¬ÓÃÓÚËã³öµ¥ÔªµØÍ¼Öµ
-    bool* nodeTyp;
-    char parent;//µ¥ÔªµØÍ¼ÖĞ£¬¸¸½Úµã
-    char neighbGroup[9] = {9,9,9,9,9,9,9,9,9};//µ¥ÔªµØÍ¼ÖĞ,ÒªÌ½²âµÄÁÚ¾Ó×é£¬³õÊ¼»¯Îª·Ç(0-8)µÄÖµ£¬Îª9µÄµãÎª²»¿ÉĞĞµã
-    Direct straightDirs[2] = {p_up,p_up};
-    switch(dir)
+    char valueT = 0; // å­˜å‚¨è¾…åŠ©åœ°å›¾ä¸­ç‚¹çš„ä¸´æ—¶å€¼ï¼Œç”¨äºç®—å‡ºå•å…ƒåœ°å›¾å€¼
+    bool *nodeTyp;
+    char parent;                                       // å•å…ƒåœ°å›¾ä¸­ï¼Œçˆ¶èŠ‚ç‚¹
+    char neighbGroup[9] = {9, 9, 9, 9, 9, 9, 9, 9, 9}; // å•å…ƒåœ°å›¾ä¸­,è¦æ¢æµ‹çš„é‚»å±…ç»„ï¼Œåˆå§‹åŒ–ä¸ºé(0-8)çš„å€¼ï¼Œä¸º9çš„ç‚¹ä¸ºä¸å¯è¡Œç‚¹
+    Direct straightDirs[2] = {p_up, p_up};
+    switch (dir)
     {
     case p_leftup:
         delta_x = -1;
@@ -735,253 +870,284 @@ Jps::PathNode* Jps::JumpOblique(PathNode*** _pathMap,PathNode currenNode,Direct 
         break;
     }
 
-    PathNode nodeTmp = currenNode;//ÑØÖ¸¶¨·½ÏòËÑÑ°µÄµã
-    //ÑØÖ¸¶¨·½ÏòËÑÑ°£¬Ö±µ½ÕÒµ½Ìøµã£¬»òÅöµ½ÕÏ°­Îï£¬»ò³¬³öµØÍ¼
-    while(1){
-        for(int i=0;i <3; i++){//³õÊ¼»¯retnode£¬ÖÃ¿Õ½Úµã
+    PathNode nodeTmp = currenNode; // æ²¿æŒ‡å®šæ–¹å‘æœå¯»çš„ç‚¹
+    // æ²¿æŒ‡å®šæ–¹å‘æœå¯»ï¼Œç›´åˆ°æ‰¾åˆ°è·³ç‚¹ï¼Œæˆ–ç¢°åˆ°éšœç¢ç‰©ï¼Œæˆ–è¶…å‡ºåœ°å›¾
+    while (1)
+    {
+        for (int i = 0; i < 3; i++)
+        { // åˆå§‹åŒ–retnodeï¼Œç½®ç©ºèŠ‚ç‚¹
             retNode[i] = nullNode;
         }
         nodeTmp.row += delta_y;
         nodeTmp.col += delta_x;
-        //cout<<"Ğ±ÌøÔ¾£º"<<nodeTmp.row<<","<<nodeTmp.col<<endl;
-        //Èç¹ûËÑÑ°µ½ÖÕµã¾Í·µ»Ø
-        if(nodeTmp.row == endNode.row &&
-           nodeTmp.col == endNode.col){
+        // cout<<"æ–œè·³è·ƒï¼š"<<nodeTmp.row<<","<<nodeTmp.col<<endl;
+        // å¦‚æœæœå¯»åˆ°ç»ˆç‚¹å°±è¿”å›
+        if (nodeTmp.row == endNode.row &&
+            nodeTmp.col == endNode.col)
+        {
             retNode[0] = nodeTmp;
             return retNode;
-           }
-        //Èç¹ûËÑÑ°µã£¬ÊÇÕÏ°­Îï£¬»òÕß³öÁËµØÍ¼£¬·µ»Ø¿Õ
-        if(height <= nodeTmp.row || 0 > nodeTmp.row||
-           width <= nodeTmp.col || 0 > nodeTmp.col ||
-            1 == _pathMap[nodeTmp.row][nodeTmp.col]->value
-           ){
+        }
+        // å¦‚æœæœå¯»ç‚¹ï¼Œæ˜¯éšœç¢ç‰©ï¼Œæˆ–è€…å‡ºäº†åœ°å›¾ï¼Œè¿”å›ç©º
+        if (height <= nodeTmp.row || 0 > nodeTmp.row ||
+            width <= nodeTmp.col || 0 > nodeTmp.col ||
+            1 == _pathMap[nodeTmp.row][nodeTmp.col]->value)
+        {
             retNode[0] = nullNode;
             return retNode;
-           }
+        }
 
-        //»ñÈ¡ËÑÑ°µãÖÜÎ§3x3µ¥ÔªµØÍ¼£¬²¢ÕÒµ½ÁÚ¾Ó×é
-        unitMap = 0;//Çå¿Õµ¥ÔªµØÍ¼
-        for(int i=0; i<9; i++){//³õÊ¼»¯ÁÚ¾Ó×é
+        // è·å–æœå¯»ç‚¹å‘¨å›´3x3å•å…ƒåœ°å›¾ï¼Œå¹¶æ‰¾åˆ°é‚»å±…ç»„
+        unitMap = 0; // æ¸…ç©ºå•å…ƒåœ°å›¾
+        for (int i = 0; i < 9; i++)
+        { // åˆå§‹åŒ–é‚»å±…ç»„
             neighbGroup[i] = 9;
         }
 
-        for(int i = 0;i <3; i++){
-            for(int j= 0;j <3; j++){
-                int row_t = nodeTmp.row +i-1;//»ñÈ¡ÖÜÎ§µÄµãµÄÖµ
-                int col_t = nodeTmp.col +j-1;
-                if(height > row_t && 0 <= row_t &&
-                    width > col_t && 0 <= col_t
-                    ){//È·±£ÖÜÎ§µãÃ»³¬³öµØÍ¼
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                int row_t = nodeTmp.row + i - 1; // è·å–å‘¨å›´çš„ç‚¹çš„å€¼
+                int col_t = nodeTmp.col + j - 1;
+                if (height > row_t && 0 <= row_t &&
+                    width > col_t && 0 <= col_t)
+                { // ç¡®ä¿å‘¨å›´ç‚¹æ²¡è¶…å‡ºåœ°å›¾
                     valueT = _pathMap[row_t][col_t]->value;
-                    unitMap = unitMap|valueT<<(i*3 +j);
-                    if(1 != valueT){//²»ÎªÕÏ°­
-                        neighbGroup[i*3+j] = (i*3 +j);
+                    unitMap = unitMap | valueT << (i * 3 + j);
+                    if (1 != valueT)
+                    { // ä¸ä¸ºéšœç¢
+                        neighbGroup[i * 3 + j] = (i * 3 + j);
                     }
                 }
             }
-        }//end-»ñÈ¡ËÑÑ°µãÖÜÎ§3x3µ¥ÔªµØÍ¼£¬²¢ÕÒµ½ÁÚ¾Ó×é
+        } // end-è·å–æœå¯»ç‚¹å‘¨å›´3x3å•å…ƒåœ°å›¾ï¼Œå¹¶æ‰¾åˆ°é‚»å±…ç»„
 
-        //»ñÈ¡µ±Ç°ËÑÑ°µãÖÜÎ§µãÀàĞÍ£¬Èç¹û´æÔÚÇ¿ÆÈÁÚ¾Ó£¬·µ»Øµ±Ç°ËÑÑ°µã
-        for(int i=0;i <9;i++){
-            if(9 != neighbGroup[i] &&
-               parent != neighbGroup[i] &&
-               4 != neighbGroup[i]
-               ){//Èç¹ûÁÚ¾Ó×éÖĞµã²»Îª£º¿Õ(9)¡¢µ±Ç°ËÑÑ°µã(4)¡¢¸¸½Úµã
+        // è·å–å½“å‰æœå¯»ç‚¹å‘¨å›´ç‚¹ç±»å‹ï¼Œå¦‚æœå­˜åœ¨å¼ºè¿«é‚»å±…ï¼Œè¿”å›å½“å‰æœå¯»ç‚¹
+        for (int i = 0; i < 9; i++)
+        {
+            if (9 != neighbGroup[i] &&
+                parent != neighbGroup[i] &&
+                4 != neighbGroup[i])
+            { // å¦‚æœé‚»å±…ç»„ä¸­ç‚¹ä¸ä¸ºï¼šç©º(9)ã€å½“å‰æœå¯»ç‚¹(4)ã€çˆ¶èŠ‚ç‚¹
                 nodeTyp = Prune(unitMap, parent, neighbGroup[i]);
-                if(1 == nodeTyp[1]){//Èç¹û´æÔÚÇ¿ÆÈÁÚ¾Ó£¬·µ»Øµ±Ç°ËÑÑ°µã
+                if (1 == nodeTyp[1])
+                { // å¦‚æœå­˜åœ¨å¼ºè¿«é‚»å±…ï¼Œè¿”å›å½“å‰æœå¯»ç‚¹
                     retNode[0] = nodeTmp;
                     retNode[0].isMidJumpNode = false;
                     return retNode;
                 }
-
             }
-        }//end-»ñÈ¡µ±Ç°ËÑÑ°µãÖÜÎ§µãÀàĞÍ
+        } // end-è·å–å½“å‰æœå¯»ç‚¹å‘¨å›´ç‚¹ç±»å‹
 
-        //Íùµ±Ç°µãµÄÖ±Ïß¡°Õæ¡£ÁÚ¾Ó¡°£¬×öÖ±ÌøÔ¾£¬Èç¹û²»·´»Ø¿Õ£¬·µ»Øµ±Ç°µã
-        PathNode jumpNode;//ÓÃÓÚ±£´æÖ±ÌøÔ¾µÄ·µ»Ø½Úµã
+        // å¾€å½“å‰ç‚¹çš„ç›´çº¿â€œçœŸã€‚é‚»å±…â€œï¼Œåšç›´è·³è·ƒï¼Œå¦‚æœä¸åå›ç©ºï¼Œè¿”å›å½“å‰ç‚¹
+        PathNode jumpNode; // ç”¨äºä¿å­˜ç›´è·³è·ƒçš„è¿”å›èŠ‚ç‚¹
         bool willRet = false;
-        for(int i=0;i <2; i++){
-            jumpNode = JumpStraightBit(_pathMap, nodeTmp, straightDirs[i]);    //----------------ĞŞ¸Ä
-            if(false == jumpNode.isnull){
+        for (int i = 0; i < 2; i++)
+        {
+            jumpNode = JumpStraightBit(_pathMap, nodeTmp, straightDirs[i]); //----------------ä¿®æ”¹
+            if (false == jumpNode.isnull)
+            {
                 willRet = true;
                 retNode[0] = nodeTmp;
                 retNode[0].isMidJumpNode = true;
-                retNode[i +1] = jumpNode;
+                retNode[i + 1] = jumpNode;
             }
-            if(jumpNode.isnull){
-                retNode[i +1] = jumpNode;
+            if (jumpNode.isnull)
+            {
+                retNode[i + 1] = jumpNode;
             }
         }
-        if(willRet) return retNode;
-
-
+        if (willRet)
+            return retNode;
     }
 }
 
-
-
-//Ñ°Â·£¬ÔËÓÃ¼ôÖ¦
-vector<Jps::PathNode> Jps::FindPathPrune(PathNode _startNode,PathNode _endNode){
-    //ÉèÖÃ¿ªÊ¼½áÊøµã
+// å¯»è·¯ï¼Œè¿ç”¨å‰ªæ
+vector<Jps::PathNode> Jps::FindPathPrune(PathNode _startNode, PathNode _endNode)
+{
+    // è®¾ç½®å¼€å§‹ç»“æŸç‚¹
     startNode = _startNode;
     endNode = _endNode;
-    bool findGoal = false;//ÊÇ·ñÕÒµ½ÁË½áÊøÄ¿±ê
+    bool findGoal = false; // æ˜¯å¦æ‰¾åˆ°äº†ç»“æŸç›®æ ‡
 
-    vector<Direct> jumpDirs;//´æ·Åµ±Ç°ĞèÒªÌøÔ¾µÄ·½Ïò
-    vector<Direct>::iterator dirsIt;//ÓÃÓÚ¼ìË÷·´ÏòÊ÷µÄµü´úÆ÷
-    PathNode jumpNode;//·µ»ØµÄÌøµã
-    PathNode* jumpNodes = new PathNode[3];//·µ»ØµÄÌøµã×é
-    bool* nodeTyp;//·µ»ØµÄÁÚ¾ÓÀàĞÍ
+    vector<Direct> jumpDirs;               // å­˜æ”¾å½“å‰éœ€è¦è·³è·ƒçš„æ–¹å‘
+    vector<Direct>::iterator dirsIt;       // ç”¨äºæ£€ç´¢åå‘æ ‘çš„è¿­ä»£å™¨
+    PathNode jumpNode;                     // è¿”å›çš„è·³ç‚¹
+    PathNode *jumpNodes = new PathNode[3]; // è¿”å›çš„è·³ç‚¹ç»„
+    bool *nodeTyp;                         // è¿”å›çš„é‚»å±…ç±»å‹
 
-    PathNode currentNode;//µ±Ç°½Úµã
-    vector<PathNode> openTree;//¿ª·ÅÁĞ±í£¬¹Ø±ÕÁĞ±íÊÇÓÃ¸¨ÖúµØÍ¼¸÷µãµÄisfindÊôĞÔÎ¬»¤µÄ
-    vector<PathNode>::iterator it;//ÓÃÓÚµü´ú
-    vector<PathNode>::iterator minF_iter;//´æ·Å×îĞ¡fÖµ½Úµã
+    PathNode currentNode;                 // å½“å‰èŠ‚ç‚¹
+    vector<PathNode> openTree;            // å¼€æ”¾åˆ—è¡¨ï¼Œå…³é—­åˆ—è¡¨æ˜¯ç”¨è¾…åŠ©åœ°å›¾å„ç‚¹çš„isfindå±æ€§ç»´æŠ¤çš„
+    vector<PathNode>::iterator it;        // ç”¨äºè¿­ä»£
+    vector<PathNode>::iterator minF_iter; // å­˜æ”¾æœ€å°få€¼èŠ‚ç‚¹
 
-    currentNode =  startNode;//µ±Ç°µãÎª¿ªÊ¼µã
+    currentNode = startNode; // å½“å‰ç‚¹ä¸ºå¼€å§‹ç‚¹
     pathMap[currentNode.row][currentNode.col]->isfind = true;
 
-    //ÎªÁËÕÒµ½ÖÕµã£¬½«ÖÕµãÉèÎªÕÏ°­£¬µ±ÄÜ¼ì²âµ½ÖÕµãÖÜÎ§µÄÌøµãÊ±£¬ÏÂÒ»²½ÕÒµ½ÖÕµã
+    // ä¸ºäº†æ‰¾åˆ°ç»ˆç‚¹ï¼Œå°†ç»ˆç‚¹è®¾ä¸ºéšœç¢ï¼Œå½“èƒ½æ£€æµ‹åˆ°ç»ˆç‚¹å‘¨å›´çš„è·³ç‚¹æ—¶ï¼Œä¸‹ä¸€æ­¥æ‰¾åˆ°ç»ˆç‚¹
     pathMap[endNode.row][endNode.col]->value = 1;
 
-    //³õÊ¼·½ÏòÊ÷£¨°Ë¸ö·½Ïò£©
-    for(int i=0;i <8;i++){
-        jumpDirs.push_back( (Direct)i);
+    // åˆå§‹æ–¹å‘æ ‘ï¼ˆå…«ä¸ªæ–¹å‘ï¼‰
+    for (int i = 0; i < 8; i++)
+    {
+        jumpDirs.push_back((Direct)i);
     }
 
-    //Ñ°Â·
-    while(1){
-        //ÀûÓÃµ±Ç°µã£¬ÒÔ¼°parent·½Ïò£¬ÍùËùÓĞ¡°Õæ¡£ÁÚ¾Ó¡°·½ÏòÌøÔ¾
-        for(dirsIt = jumpDirs.begin();dirsIt != jumpDirs.end(); dirsIt++){
-            PathNode nodeTmp = currentNode;//ÁÙÊ±¼ìË÷½Úµã£¬ÓÃÓÚµ±Ç°·½ÏòÉÏµÄ¼ìË÷
-            while(1){//ÔÚµ±Ç°·½ÏòÒ»Ö±Ñ°ÕÒÌøµã£¬Ö±µ½Ã»ÓĞÕÒµ½Ìøµã
-                //cout<<"·½Ïò£º"<<(*dirsIt)<<" "<<endl;
-                for(int i=0;i <3; i++){
+    // å¯»è·¯
+    while (1)
+    {
+        // åˆ©ç”¨å½“å‰ç‚¹ï¼Œä»¥åŠparentæ–¹å‘ï¼Œå¾€æ‰€æœ‰â€œçœŸã€‚é‚»å±…â€œæ–¹å‘è·³è·ƒ
+        for (dirsIt = jumpDirs.begin(); dirsIt != jumpDirs.end(); dirsIt++)
+        {
+            PathNode nodeTmp = currentNode; // ä¸´æ—¶æ£€ç´¢èŠ‚ç‚¹ï¼Œç”¨äºå½“å‰æ–¹å‘ä¸Šçš„æ£€ç´¢
+            while (1)
+            { // åœ¨å½“å‰æ–¹å‘ä¸€ç›´å¯»æ‰¾è·³ç‚¹ï¼Œç›´åˆ°æ²¡æœ‰æ‰¾åˆ°è·³ç‚¹
+                // cout<<"æ–¹å‘ï¼š"<<(*dirsIt)<<" "<<endl;
+                for (int i = 0; i < 3; i++)
+                {
                     jumpNodes[i] = nullNode;
                 }
-                if( *(dirsIt) == p_up|| *(dirsIt) == p_down|| *(dirsIt) == p_left|| *(dirsIt) == p_right){
-                    jumpNodes[0] = JumpStraightBit(pathMap, nodeTmp, (*dirsIt) );
+                if (*(dirsIt) == p_up || *(dirsIt) == p_down || *(dirsIt) == p_left || *(dirsIt) == p_right)
+                {
+                    jumpNodes[0] = JumpStraightBit(pathMap, nodeTmp, (*dirsIt));
                 }
-                if( *(dirsIt) == p_leftup|| *(dirsIt) == p_leftdown|| *(dirsIt) == p_rightup|| *(dirsIt) == p_rightdown){
-                    jumpNodes = JumpOblique(pathMap, nodeTmp, (*dirsIt) );
+                if (*(dirsIt) == p_leftup || *(dirsIt) == p_leftdown || *(dirsIt) == p_rightup || *(dirsIt) == p_rightdown)
+                {
+                    jumpNodes = JumpOblique(pathMap, nodeTmp, (*dirsIt));
                 }
 
-                //´Ó·µ»ØµÄ½ÚµãÖĞ£¬ËÑÑ°Ìøµã£¬²¢¸üĞÂg¡¢h¡¢fÖµ
-                for(int i =0;i <3; i++){
-                    //Èç¹û·µ»ØµÄÊÇÓĞĞ§½Úµã£¬ÇÒ²»ÔÚ¹Ø±ÕÁĞ±íÖĞ£¨Î´ÕÒ¹ı£©
-                    if(false == jumpNodes[i].isnull &&
-                       false == pathMap[jumpNodes[i].row][jumpNodes[i].col]->isfind &&//²»ÔÚ¹Ø±ÕÁĞ±íÖĞ£¨Î´ÕÒ¹ı£©
-                       false == jumpNodes[i].isMidJumpNode)//²»ÊÇÖĞ¼äÌøµã
-                       {
-                        PathNode parentTmp;//ÁÙÊ±¸¸½Úµã£¬ÓÃÓÚ¼ÆËãgÖµ£¬ÅĞ¶ÏÊÇ·ñ¸üĞÂ¸¸½Úµã
-                        if(pathMap[nodeTmp.row][nodeTmp.col]->isMidJumpNode){//Èç¹û·¢ÏÖµ±Ç°µãÎªÖĞ¼äÌøµã,¾Í°ÑºóĞø½ÚµãµÄ¸¸½ÚµãÉèÎªµ±Ç°½ÚµãµÄ¸¸½Úµã
+                // ä»è¿”å›çš„èŠ‚ç‚¹ä¸­ï¼Œæœå¯»è·³ç‚¹ï¼Œå¹¶æ›´æ–°gã€hã€få€¼
+                for (int i = 0; i < 3; i++)
+                {
+                    // å¦‚æœè¿”å›çš„æ˜¯æœ‰æ•ˆèŠ‚ç‚¹ï¼Œä¸”ä¸åœ¨å…³é—­åˆ—è¡¨ä¸­ï¼ˆæœªæ‰¾è¿‡ï¼‰
+                    if (false == jumpNodes[i].isnull &&
+                        false == pathMap[jumpNodes[i].row][jumpNodes[i].col]->isfind && // ä¸åœ¨å…³é—­åˆ—è¡¨ä¸­ï¼ˆæœªæ‰¾è¿‡ï¼‰
+                        false == jumpNodes[i].isMidJumpNode)                            // ä¸æ˜¯ä¸­é—´è·³ç‚¹
+                    {
+                        PathNode parentTmp; // ä¸´æ—¶çˆ¶èŠ‚ç‚¹ï¼Œç”¨äºè®¡ç®—gå€¼ï¼Œåˆ¤æ–­æ˜¯å¦æ›´æ–°çˆ¶èŠ‚ç‚¹
+                        if (pathMap[nodeTmp.row][nodeTmp.col]->isMidJumpNode)
+                        { // å¦‚æœå‘ç°å½“å‰ç‚¹ä¸ºä¸­é—´è·³ç‚¹,å°±æŠŠåç»­èŠ‚ç‚¹çš„çˆ¶èŠ‚ç‚¹è®¾ä¸ºå½“å‰èŠ‚ç‚¹çš„çˆ¶èŠ‚ç‚¹
                             parentTmp.row = pathMap[nodeTmp.row][nodeTmp.col]->parent->row;
                             parentTmp.col = pathMap[nodeTmp.row][nodeTmp.col]->parent->col;
                         }
-                        if(false == pathMap[nodeTmp.row][nodeTmp.col]->isMidJumpNode){//Èç¹û·¢ÏÖµ±Ç°µã²»ÊÇÖĞ¼äÌøµã
+                        if (false == pathMap[nodeTmp.row][nodeTmp.col]->isMidJumpNode)
+                        { // å¦‚æœå‘ç°å½“å‰ç‚¹ä¸æ˜¯ä¸­é—´è·³ç‚¹
                             parentTmp.row = pathMap[nodeTmp.row][nodeTmp.col]->row;
                             parentTmp.col = pathMap[nodeTmp.row][nodeTmp.col]->col;
                         }
-                        jumpNodes[i].g = pathMap[parentTmp.row][parentTmp.col]->g +GetDis( parentTmp, jumpNodes[i]);
-                        //Èç¹û¸ÃµãÒÑ¾­ÔÚ¿ª·ÅÁĞ±íÖĞ£¬±È½ÏgÖµ£¬È¡gÖµ½ÏĞ¡µÄµãµÄÊôĞÔ£¬²¢²»ÓÃÔÙ´Î¼ÓÈë¿ª·ÅÁĞ±í
-                        if(pathMap[jumpNodes[i].row][jumpNodes[i].col]->inopen){
-                            if(pathMap[jumpNodes[i].row][jumpNodes[i].col]->g > jumpNodes[i].g){
+                        jumpNodes[i].g = pathMap[parentTmp.row][parentTmp.col]->g + GetDis(parentTmp, jumpNodes[i]);
+                        // å¦‚æœè¯¥ç‚¹å·²ç»åœ¨å¼€æ”¾åˆ—è¡¨ä¸­ï¼Œæ¯”è¾ƒgå€¼ï¼Œå–gå€¼è¾ƒå°çš„ç‚¹çš„å±æ€§ï¼Œå¹¶ä¸ç”¨å†æ¬¡åŠ å…¥å¼€æ”¾åˆ—è¡¨
+                        if (pathMap[jumpNodes[i].row][jumpNodes[i].col]->inopen)
+                        {
+                            if (pathMap[jumpNodes[i].row][jumpNodes[i].col]->g > jumpNodes[i].g)
+                            {
                                 pathMap[jumpNodes[i].row][jumpNodes[i].col]->g = jumpNodes[i].g;
                                 pathMap[jumpNodes[i].row][jumpNodes[i].col]->GetF();
 
                                 pathMap[jumpNodes[i].row][jumpNodes[i].col]->parent = pathMap[parentTmp.row][parentTmp.col];
                             }
-
                         }
-                        //Èç¹û²»ÔÚ¿ª·ÅÁĞ±íÖĞ
-                        if(false == pathMap[jumpNodes[i].row][jumpNodes[i].col]->inopen){
+                        // å¦‚æœä¸åœ¨å¼€æ”¾åˆ—è¡¨ä¸­
+                        if (false == pathMap[jumpNodes[i].row][jumpNodes[i].col]->inopen)
+                        {
                             jumpNodes[i].h = GetH(jumpNodes[i], endNode);
                             jumpNodes[i].GetF();
                             jumpNodes[i].inopen = true;
 
-                            //½«Ì½²âµã¼ÓÈë¿ª·ÅÁĞ±í
+                            // å°†æ¢æµ‹ç‚¹åŠ å…¥å¼€æ”¾åˆ—è¡¨
                             openTree.push_back(jumpNodes[i]);
-                            //¸üĞÂ¸¨ÖúµØÍ¼ÖĞ¶ÔÓ¦Ì½²âµãµÄ½ÚµãÊôĞÔ
+                            // æ›´æ–°è¾…åŠ©åœ°å›¾ä¸­å¯¹åº”æ¢æµ‹ç‚¹çš„èŠ‚ç‚¹å±æ€§
                             pathMap[jumpNodes[i].row][jumpNodes[i].col]->g = jumpNodes[i].g;
                             pathMap[jumpNodes[i].row][jumpNodes[i].col]->h = jumpNodes[i].h;
                             pathMap[jumpNodes[i].row][jumpNodes[i].col]->f = jumpNodes[i].f;
                             pathMap[jumpNodes[i].row][jumpNodes[i].col]->parent = pathMap[parentTmp.row][parentTmp.col];
                             pathMap[jumpNodes[i].row][jumpNodes[i].col]->inopen = jumpNodes[i].inopen;
                         }
-                        //ÅĞ¶ÏÊÇ·ñÕÒµ½ÁËÖÕµã--ÌøµãÖÜÎ§´æÔÚÖÕµã
-                        int t_row,t_col;
+                        // åˆ¤æ–­æ˜¯å¦æ‰¾åˆ°äº†ç»ˆç‚¹--è·³ç‚¹å‘¨å›´å­˜åœ¨ç»ˆç‚¹
+                        int t_row, t_col;
                         t_row = jumpNodes[i].row;
                         t_col = jumpNodes[i].col;
-                        if(endNode.row == jumpNodes[i].row){
-                            if(endNode.col == t_col -1 ||
-                               endNode.col == t_col +1
-                               ){
+                        if (endNode.row == jumpNodes[i].row)
+                        {
+                            if (endNode.col == t_col - 1 ||
+                                endNode.col == t_col + 1)
+                            {
                                 findGoal = true;
                                 pathMap[endNode.row][endNode.col]->parent = pathMap[jumpNodes[i].row][jumpNodes[i].col];
                                 break;
-                               }
+                            }
                         }
-                        if(endNode.col == jumpNodes[i].col){
-                            if(endNode.row == t_row -1 ||
-                               endNode.row == t_row +1
-                               ){
+                        if (endNode.col == jumpNodes[i].col)
+                        {
+                            if (endNode.row == t_row - 1 ||
+                                endNode.row == t_row + 1)
+                            {
                                 findGoal = true;
                                 pathMap[endNode.row][endNode.col]->parent = pathMap[jumpNodes[i].row][jumpNodes[i].col];
                                 break;
-                               }
+                            }
                         }
 
-                    }//end--//Èç¹û·µ»ØµÄÊÇÓĞĞ§½Úµã£¬ÇÒ²»ÔÚ¹Ø±ÕÁĞ±íÖĞ£¨Î´ÕÒ¹ı£©
+                    } // end--//å¦‚æœè¿”å›çš„æ˜¯æœ‰æ•ˆèŠ‚ç‚¹ï¼Œä¸”ä¸åœ¨å…³é—­åˆ—è¡¨ä¸­ï¼ˆæœªæ‰¾è¿‡ï¼‰
 
+                } // end--ä»è¿”å›çš„èŠ‚ç‚¹ä¸­ï¼Œæœå¯»è·³ç‚¹ï¼Œå¹¶æ›´æ–°gã€hã€få€¼
 
-                }//end--´Ó·µ»ØµÄ½ÚµãÖĞ£¬ËÑÑ°Ìøµã£¬²¢¸üĞÂg¡¢h¡¢fÖµ
+                if (findGoal)
+                    break;
 
-                if(findGoal) break;
-
-                if(false == jumpNodes[0].isnull &&
-                   false == pathMap[jumpNodes[0].row][jumpNodes[0].col]->inopen &&//²»ÔÚ¿ª·ÅÁĞ±í
-                   jumpNodes[0].isMidJumpNode) //Èç¹ûÕÒµ½ÖĞ¼äÌøµã£¬±ê¼Ç¸¨ÖúµØÍ¼ÖĞ¸ÃµãµÄÖĞ¼äÌøµãÊôĞÔÎªtrue
+                if (false == jumpNodes[0].isnull &&
+                    false == pathMap[jumpNodes[0].row][jumpNodes[0].col]->inopen && // ä¸åœ¨å¼€æ”¾åˆ—è¡¨
+                    jumpNodes[0].isMidJumpNode)                                     // å¦‚æœæ‰¾åˆ°ä¸­é—´è·³ç‚¹ï¼Œæ ‡è®°è¾…åŠ©åœ°å›¾ä¸­è¯¥ç‚¹çš„ä¸­é—´è·³ç‚¹å±æ€§ä¸ºtrue
                 {
                     pathMap[jumpNodes[0].row][jumpNodes[0].col]->isMidJumpNode = true;
-                    if(pathMap[nodeTmp.row][nodeTmp.col]->isMidJumpNode){//Èç¹ûµ±Ç°¼ìË÷µãÎªÖĞ¼äÌøµã£¬ÔòÉèÖÃÕÒµ½µÄÖĞ¼äÌøµãµÄ¸¸½ÚµãÎªµ±Ç°¼ìË÷µãµÄ¸¸½Úµã
+                    if (pathMap[nodeTmp.row][nodeTmp.col]->isMidJumpNode)
+                    { // å¦‚æœå½“å‰æ£€ç´¢ç‚¹ä¸ºä¸­é—´è·³ç‚¹ï¼Œåˆ™è®¾ç½®æ‰¾åˆ°çš„ä¸­é—´è·³ç‚¹çš„çˆ¶èŠ‚ç‚¹ä¸ºå½“å‰æ£€ç´¢ç‚¹çš„çˆ¶èŠ‚ç‚¹
                         PathNode parentTmp;
                         parentTmp.row = pathMap[nodeTmp.row][nodeTmp.col]->parent->row;
                         parentTmp.col = pathMap[nodeTmp.row][nodeTmp.col]->parent->col;
                         pathMap[jumpNodes[0].row][jumpNodes[0].col]->parent = pathMap[parentTmp.row][parentTmp.col];
                     }
-                    if(false == pathMap[nodeTmp.row][nodeTmp.col]->isMidJumpNode)
+                    if (false == pathMap[nodeTmp.row][nodeTmp.col]->isMidJumpNode)
                         pathMap[jumpNodes[0].row][jumpNodes[0].col]->parent = pathMap[nodeTmp.row][nodeTmp.col];
                 }
-                //Èç¹ûÕÒµ½Ìøµã£¬°Ñµ±Ç°¼ìË÷µãÉèÎª¸ÃÌøµã
-                if(false == jumpNodes[0].isnull){
+                // å¦‚æœæ‰¾åˆ°è·³ç‚¹ï¼ŒæŠŠå½“å‰æ£€ç´¢ç‚¹è®¾ä¸ºè¯¥è·³ç‚¹
+                if (false == jumpNodes[0].isnull)
+                {
                     nodeTmp.row = jumpNodes[0].row;
                     nodeTmp.col = jumpNodes[0].col;
                 }
 
-                if(jumpNodes[0].isnull) break;//Èç¹ûÃ»ÓĞÕÒµ½Ìøµã£¬¾ÍÌø³öµ±Ç°·½ÏòµÄÑ­»·
+                if (jumpNodes[0].isnull)
+                    break; // å¦‚æœæ²¡æœ‰æ‰¾åˆ°è·³ç‚¹ï¼Œå°±è·³å‡ºå½“å‰æ–¹å‘çš„å¾ªç¯
 
-            }//end--while(1)//ÔÚµ±Ç°·½ÏòÒ»Ö±Ñ°ÕÒÌøµã
+            } // end--while(1)//åœ¨å½“å‰æ–¹å‘ä¸€ç›´å¯»æ‰¾è·³ç‚¹
 
-            if(findGoal) break;
-        }//end---for(dirsIt = jumpDirs.begin();dirsIt != jumpDirs.end(); dirsIt++)
+            if (findGoal)
+                break;
+        } // end---for(dirsIt = jumpDirs.begin();dirsIt != jumpDirs.end(); dirsIt++)
 
-        if(findGoal) break;
+        if (findGoal)
+            break;
 
-        if(openTree.size() == 0) break;
-        //ÕÒÏÂÒ»µã
+        if (openTree.size() == 0)
+            break;
+        // æ‰¾ä¸‹ä¸€ç‚¹
         minF_iter = openTree.begin();
-        //cout<<endl<<"ÕÒÏÂÒ»µã"<<endl;
-        for(it =openTree.begin();it !=openTree.end(); it++){
-            //cout<<(*it).row<<","<<(*it).col<<endl;
-            if(pathMap[(*it).row][(*it).col]->f < pathMap[(*minF_iter).row][(*minF_iter).col]->f){
+        // cout<<endl<<"æ‰¾ä¸‹ä¸€ç‚¹"<<endl;
+        for (it = openTree.begin(); it != openTree.end(); it++)
+        {
+            // cout<<(*it).row<<","<<(*it).col<<endl;
+            if (pathMap[(*it).row][(*it).col]->f < pathMap[(*minF_iter).row][(*minF_iter).col]->f)
+            {
                 minF_iter = it;
             }
         }
 
-#if 0   //µ÷ÊÔ
-        cout<<endl<<"ÕÒµ½µÄÏÂÒ»µã: ";
+#if 0 // è°ƒè¯•
+        cout<<endl<<"æ‰¾åˆ°çš„ä¸‹ä¸€ç‚¹: ";
         cout<<(*minF_iter).row<<","<<(*minF_iter).col<<endl;
-        cout<<"´Ë½Úµã¸¸½Úµã×ø±ê£º";
+        cout<<"æ­¤èŠ‚ç‚¹çˆ¶èŠ‚ç‚¹åæ ‡ï¼š";
         PathNode tmp = { (*minF_iter).row,(*minF_iter).col};
         while(NULL != pathMap[tmp.row][tmp.col]->parent){
             int t_row = tmp.row,t_col = tmp.col;
@@ -995,100 +1161,140 @@ vector<Jps::PathNode> Jps::FindPathPrune(PathNode _startNode,PathNode _endNode){
         currentNode = (*minF_iter);
         pathMap[currentNode.row][currentNode.col]->isfind = true;
 
-        if(currentNode.row == endNode.row && currentNode.col == endNode.col) break;
+        if (currentNode.row == endNode.row && currentNode.col == endNode.col)
+            break;
 
         openTree.erase(minF_iter);
 
-        //»ñÈ¡µ±Ç°½Úµã¼´½«ÒªËÑÑ°µÄ·½Ïò£¬jumpDirs
+        // è·å–å½“å‰èŠ‚ç‚¹å³å°†è¦æœå¯»çš„æ–¹å‘ï¼ŒjumpDirs
         jumpDirs.clear();
         int delta_y = currentNode.row - pathMap[currentNode.row][currentNode.col]->parent->row;
         int delta_x = currentNode.col - pathMap[currentNode.row][currentNode.col]->parent->col;
-        char p;//µ¥ÔªµØÍ¼ÖĞ¸¸µã
+        char p; // å•å…ƒåœ°å›¾ä¸­çˆ¶ç‚¹
         short unitMap = 0;
-        char neighbGroup[9] = {9,9,9,9,9,9,9,9,9};//µ¥ÔªµØÍ¼ÖĞ,ÒªÌ½²âµÄÁÚ¾Ó×é£¬³õÊ¼»¯Îª·Ç(0-8)µÄÖµ£¬Îª9µÄµãÎª²»¿ÉĞĞµã
+        char neighbGroup[9] = {9, 9, 9, 9, 9, 9, 9, 9, 9}; // å•å…ƒåœ°å›¾ä¸­,è¦æ¢æµ‹çš„é‚»å±…ç»„ï¼Œåˆå§‹åŒ–ä¸ºé(0-8)çš„å€¼ï¼Œä¸º9çš„ç‚¹ä¸ºä¸å¯è¡Œç‚¹
 
-        if(0 > delta_y && 0 ==delta_x) p = 7;//ËÑÑ°·½ÏòÎªÉÏ
-        if(0 < delta_y && 0 ==delta_x) p = 1;//ËÑÑ°·½ÏòÎªÏÂ
-        if(0 == delta_y && 0 >delta_x) p = 5;//ËÑÑ°·½ÏòÎª×ó
-        if(0 == delta_y && 0 <delta_x) p = 3;//ËÑÑ°·½ÏòÎªÓÒ
+        if (0 > delta_y && 0 == delta_x)
+            p = 7; // æœå¯»æ–¹å‘ä¸ºä¸Š
+        if (0 < delta_y && 0 == delta_x)
+            p = 1; // æœå¯»æ–¹å‘ä¸ºä¸‹
+        if (0 == delta_y && 0 > delta_x)
+            p = 5; // æœå¯»æ–¹å‘ä¸ºå·¦
+        if (0 == delta_y && 0 < delta_x)
+            p = 3; // æœå¯»æ–¹å‘ä¸ºå³
 
-        if(0 > delta_y && 0 >delta_x) p = 8;//ËÑÑ°·½ÏòÎª×óÉÏ
-        if(0 < delta_y && 0 >delta_x) p = 2;//ËÑÑ°·½ÏòÎª×óÏÂ
-        if(0 > delta_y && 0 <delta_x) p = 6;//ËÑÑ°·½ÏòÎªÓÒÉÏ
-        if(0 < delta_y && 0 <delta_x) p = 0;//
+        if (0 > delta_y && 0 > delta_x)
+            p = 8; // æœå¯»æ–¹å‘ä¸ºå·¦ä¸Š
+        if (0 < delta_y && 0 > delta_x)
+            p = 2; // æœå¯»æ–¹å‘ä¸ºå·¦ä¸‹
+        if (0 > delta_y && 0 < delta_x)
+            p = 6; // æœå¯»æ–¹å‘ä¸ºå³ä¸Š
+        if (0 < delta_y && 0 < delta_x)
+            p = 0; //
 
-        //»ñÈ¡ËÑÑ°µãÖÜÎ§3x3µ¥ÔªµØÍ¼£¬²¢ÕÒµ½ÁÚ¾Ó×é
+        // è·å–æœå¯»ç‚¹å‘¨å›´3x3å•å…ƒåœ°å›¾ï¼Œå¹¶æ‰¾åˆ°é‚»å±…ç»„
 
-        for(int i = 0;i <3; i++){
-            for(int j= 0;j <3; j++){
-                int row_t = currentNode.row +i-1;//»ñÈ¡ÖÜÎ§µÄµã×ø±ê
-                int col_t = currentNode.col +j-1;
-                if(height > row_t && 0 <= row_t &&
-                    width > col_t && 0 <= col_t
-                    ){//È·±£ÖÜÎ§µãÃ»³¬³öµØÍ¼
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                int row_t = currentNode.row + i - 1; // è·å–å‘¨å›´çš„ç‚¹åæ ‡
+                int col_t = currentNode.col + j - 1;
+                if (height > row_t && 0 <= row_t &&
+                    width > col_t && 0 <= col_t)
+                { // ç¡®ä¿å‘¨å›´ç‚¹æ²¡è¶…å‡ºåœ°å›¾
                     int valueT = pathMap[row_t][col_t]->value;
-                    unitMap = unitMap|valueT<<(i*3 +j);
-                    if(1 != valueT){//²»ÎªÕÏ°­
-                        neighbGroup[i*3+j] = (i*3 +j);
+                    unitMap = unitMap | valueT << (i * 3 + j);
+                    if (1 != valueT)
+                    { // ä¸ä¸ºéšœç¢
+                        neighbGroup[i * 3 + j] = (i * 3 + j);
                     }
                 }
             }
-        }//end-»ñÈ¡ËÑÑ°µãÖÜÎ§3x3µ¥ÔªµØÍ¼£¬²¢ÕÒµ½ÁÚ¾Ó×é
+        } // end-è·å–æœå¯»ç‚¹å‘¨å›´3x3å•å…ƒåœ°å›¾ï¼Œå¹¶æ‰¾åˆ°é‚»å±…ç»„
 
-        //»ñÈ¡µ±Ç°ËÑÑ°µãÖÜÎ§µãÀàĞÍ£¬²¢¸³ÖµÌ½²â·½Ïò×é
-        for(int i=0;i <9;i++){
-            if(9 != neighbGroup[i] &&
-               p != neighbGroup[i] &&
-               4 != neighbGroup[i]
-               ){//Èç¹ûÁÚ¾Ó×éÖĞµã²»Îª£º¿Õ(9)¡¢µ±Ç°ËÑÑ°µã(4)¡¢¸¸½Úµã
+        // è·å–å½“å‰æœå¯»ç‚¹å‘¨å›´ç‚¹ç±»å‹ï¼Œå¹¶èµ‹å€¼æ¢æµ‹æ–¹å‘ç»„
+        for (int i = 0; i < 9; i++)
+        {
+            if (9 != neighbGroup[i] &&
+                p != neighbGroup[i] &&
+                4 != neighbGroup[i])
+            { // å¦‚æœé‚»å±…ç»„ä¸­ç‚¹ä¸ä¸ºï¼šç©º(9)ã€å½“å‰æœå¯»ç‚¹(4)ã€çˆ¶èŠ‚ç‚¹
                 nodeTyp = Prune(unitMap, p, neighbGroup[i]);
-                if(1 == nodeTyp[0]){//Èç¹û´æÔÚ¹Ø¼üÁÚ¾Ó£¬¾ÍÏòÌ½²â·½Ïò×éÖĞ¼ÓÈëµ±Ç°·½Ïò
-                    if(1==i) jumpDirs.push_back(p_up);
-                    if(7==i) jumpDirs.push_back(p_down);
-                    if(3==i) jumpDirs.push_back(p_left);
-                    if(5==i) jumpDirs.push_back(p_right);
+                if (1 == nodeTyp[0])
+                { // å¦‚æœå­˜åœ¨å…³é”®é‚»å±…ï¼Œå°±å‘æ¢æµ‹æ–¹å‘ç»„ä¸­åŠ å…¥å½“å‰æ–¹å‘
+                    if (1 == i)
+                        jumpDirs.push_back(p_up);
+                    if (7 == i)
+                        jumpDirs.push_back(p_down);
+                    if (3 == i)
+                        jumpDirs.push_back(p_left);
+                    if (5 == i)
+                        jumpDirs.push_back(p_right);
 
-                    if(0==i) jumpDirs.push_back(p_leftup);
-                    if(6==i) jumpDirs.push_back(p_leftdown);
-                    if(2==i) jumpDirs.push_back(p_rightup);
-                    if(8==i) jumpDirs.push_back(p_rightdown);
-
+                    if (0 == i)
+                        jumpDirs.push_back(p_leftup);
+                    if (6 == i)
+                        jumpDirs.push_back(p_leftdown);
+                    if (2 == i)
+                        jumpDirs.push_back(p_rightup);
+                    if (8 == i)
+                        jumpDirs.push_back(p_rightdown);
                 }
-
             }
-        }//end-»ñÈ¡µ±Ç°ËÑÑ°µãÖÜÎ§µãÀàĞÍ£¬²¢¸³ÖµÌ½²â·½Ïò×é
+        } // end-è·å–å½“å‰æœå¯»ç‚¹å‘¨å›´ç‚¹ç±»å‹ï¼Œå¹¶èµ‹å€¼æ¢æµ‹æ–¹å‘ç»„
 
-        //system("pause");
-    }//end-Ñ°Â·-while(1)
+        // system("pause");
+    } // end-å¯»è·¯-while(1)
 
-    //·µ»ØÂ·¾¶
+    // è¿”å›è·¯å¾„
     vector<PathNode> retPathTmp;
     PathNode nodeTmp = endNode;
-    while(1){
+    while (1)
+    {
         int row_t = nodeTmp.row;
         int col_t = nodeTmp.col;
         retPathTmp.push_back(nodeTmp);
-        if(NULL == pathMap[nodeTmp.row][nodeTmp.col]->parent) break;
+        pathMap[nodeTmp.row][nodeTmp.col]->isroute = true;
+        if (NULL == pathMap[nodeTmp.row][nodeTmp.col]->parent)
+            break;
         nodeTmp.row = pathMap[row_t][col_t]->parent->row;
         nodeTmp.col = pathMap[row_t][col_t]->parent->col;
     }
-    //½«Â·¾¶ÕûÀíÎª´Ó¿ªÊ¼µã³ö·¢µÄË³Ğò
-    for(it =retPathTmp.end()-1;it != retPathTmp.begin() -1; it--){
+    // å°†è·¯å¾„æ•´ç†ä¸ºä»å¼€å§‹ç‚¹å‡ºå‘çš„é¡ºåº
+    for (it = retPathTmp.end() - 1; it != retPathTmp.begin() - 1; it--)
+    {
         retPath.push_back(*it);
     }
 
-    vector<PathNode>().swap(retPathTmp);//ÊÍ·ÅÄÚ´æ
+    vector<PathNode>().swap(retPathTmp); // é‡Šæ”¾å†…å­˜
     return retPath;
-
-
 }
 
-void Jps::PrintRoute(){
-    vector<PathNode>::iterator it;//ÓÃÓÚµü´ú
-    cout<<endl<<"route: ";
-    for(it =retPath.begin();it != retPath.end(); it++){
-        cout<<(*it).row<<","<<(*it).col<<" ";
+void Jps::PrintRoute()
+{
+    vector<PathNode>::iterator it; // ç”¨äºè¿­ä»£
+    cout << endl
+         << "route: ";
+    for (it = retPath.begin(); it != retPath.end(); it++)
+    {
+        cout << (*it).row << "," << (*it).col << " ";
     }
-    cout<<endl;
+    cout << endl;
+}
 
+void Jps::PrintRouteMap()
+{
+    // æ‰“å°è·¯çº¿åœ°å›¾
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            if (pathMap[i][j]->isroute)
+                cout << "*";
+            else
+                cout << pathMap[i][j]->value;
+        }
+        cout << endl;
+    }
 }

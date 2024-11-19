@@ -1,7 +1,7 @@
 #include <iostream>
-#include<windows.h>
-#include<vector>
-#include<cmath>
+#include <vector>
+#include <cmath>
+#include <cstring>
 
 using namespace std;
 using std::vector;
@@ -65,5 +65,5 @@ public:
     PathNode JumpStraightBit(PathNode*** _pathMap,PathNode currenNode,Direct dir);//利用位运算优化后的，直线寻跳点
     vector<PathNode> FindPathPrune(PathNode _startNode,PathNode _endNode);//寻路运用剪枝
 	void PrintRoute();
-
+    void PrintRouteMap();
 };
