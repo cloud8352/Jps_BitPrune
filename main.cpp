@@ -1,6 +1,6 @@
 
 #include "AStar.h"
-#include "jps.h"
+#include "BitPruneJps.h"
 
 #include <iostream> //"#"代表预处理命令
 #include <cstring>
@@ -133,25 +133,23 @@ int main()
     aStar.PrintPathMap();
     waitForContinue();
 
-    // JPS
-    cout << "------------JPS---------------" << "\n";
-    Jps jps;
-    Jps::PathNode jStart = {start_y, start_x};
-    Jps::PathNode jEnd = {end_y, end_x};
+    // BitPruneJps
+    cout << "------------BitPruneJps---------------" << "\n";
+    BitPruneJps jps;
 
-    // JpsPrune寻路开始时间
+    // BitPruneJps 寻路开始时间
     beginTimePoint = std::chrono::high_resolution_clock::now();
 
-    jps.Init(MapTable, height, width);
-    cout << "--------FindPathPrune---------" << "\n";
-    jps.FindPathPrune(jStart, jEnd);
+    jps.InitMap(MapTable, height, width);
+    cout << "--------BitPruneJps---------" << "\n";
+    jps.FindPath(start_x, start_y, end_x, end_y);
 
-    // JpsPrune寻路结束时间
+    // BitPruneJps 寻路结束时间
     endTimePoint = std::chrono::high_resolution_clock::now();
     elapsedTime = duration_cast<milliseconds>(endTimePoint - beginTimePoint);
-    cout << "JpsPrune寻路使用时间：" << elapsedTime.count() << "ms";
-    jps.PrintRoute();
-    jps.PrintRouteMap();
+    cout << "BitPruneJps 寻路使用时间：" << elapsedTime.count() << "ms";
+    jps.PrintPath();
+    jps.PrintPathMap();
 
     waitForContinue();
     return 0;

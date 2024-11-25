@@ -10,24 +10,25 @@
 using namespace std;
 using std::vector;
 
-const int VerticalDist = 10; // 每格到相邻格直线距离
-const int ObliqueDist = 14;  // 每格到相邻格斜线距离
-
-class AStar
+class BitPruneJps
 {
 public:
+    // 辅助地图节点
     struct Node
     {
         unsigned int X; // 水平坐标
         unsigned int Y; // 垂直坐标
         unsigned int G, H, F;
-        bool IsObstacle; // 是否为障碍
-        bool IsInPath;  // 是否是最短路径中的一点
-        bool IsInClosedList; // 
+        bool IsObstacle;     // 是否为障碍
+        bool IsInPath;       // 是否是最短路径中的一点
+        bool IsInClosedList; //
         bool IsInOpenedList;
 
         Node *ParentNode;
         vector<Node *> NextNodeList; // 用于存入该点的周围可行点
+        bool IsNull;                 // 是否是空节点
+        bool IsMidJumpNode;          // 是否是中间跳点
+
         Node()
         {
             X = 0;
@@ -37,6 +38,8 @@ public:
             IsInPath = false;
             IsInClosedList = IsInOpenedList = false;
             ParentNode = nullptr;
+            IsNull = true;
+            IsMidJumpNode = false;
         }
         void Reset()
         {
@@ -44,15 +47,16 @@ public:
             IsInPath = false;
             IsInClosedList = IsInOpenedList = false;
             ParentNode = nullptr;
+            IsNull = true;
+            IsMidJumpNode = false;
         }
         void UpdateF()
         {
             F = G + H;
         }
     };
-
-    explicit AStar();
-    virtual ~AStar();
+    explicit BitPruneJps();
+    virtual ~BitPruneJps();
     void InitMap(int **map, unsigned int width, unsigned int height);
     void FindPath(unsigned int beginX, unsigned int beginY,
                   unsigned int endX, unsigned int endY);
@@ -62,14 +66,20 @@ public:
 private:
     // 重置地图
     void resetMap();
-    // 该点是否为障碍
-    bool isObstacle(const Node &node);
-    // 位置是否存在障碍
-    bool whetherPosHasObstacle(unsigned int x, unsigned int y);
+    void deleteMap();
+    // 计算两点直线距离
+    int GetDis(const Node &startNode, const Node &endNode)
+    {
+        int dis = sqrt(pow(long(endNode.X) - long(startNode.X), 2) + pow(long(endNode.Y) - long(startNode.Y), 2)) * 10; // pow次方函数
+        return dis;
+    }
     // 计算h值
     int getH(const Node &node);
-    void updateOpenedNodeList(const Node &exploringNode);
-    void deleteMap();
+    vector<DirectionEnum> getForcedNeighbourDirs(unsigned int x, unsigned int y,
+                                                 DirectionEnum jumpedDir);
+    bool *getNeighbourType(short unitMap, char p, char n);
+    Node JumpStraight(const Node &currenNode, const DirectionEnum &dir);
+    Node *JumpOblique(const Node &currenNode, const DirectionEnum &dir);
 
 private:
     // 建立辅助地图
@@ -80,5 +90,5 @@ private:
     Node *m_endNode;
 
     vector<Node *> m_openedNodeList; // 开放节点列表
-    vector<Node *> m_pathNodeList; // 储存最终路径
+    vector<Node *> m_pathNodeList;   // 储存最终路径
 };
