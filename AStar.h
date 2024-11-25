@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Common.h"
+
 #include <iostream>
 #include <vector>
 #include <cmath>
@@ -7,21 +9,6 @@
 
 using namespace std;
 using std::vector;
-
-// 方向枚举
-enum DirectionEnum
-{
-    Up,
-    Down,
-    Left,
-    Right,
-    LeftUp,
-    LeftDown,
-    RightUp,
-    RightDown
-};
-const vector<DirectionEnum> DirectionEnums =
-    {Up, Down, Left, Right, LeftUp, LeftDown, RightUp, RightDown};
 
 const int VerticalDist = 10; // 每格到相邻格直线距离
 const int ObliqueDist = 14;  // 每格到相邻格斜线距离
@@ -40,7 +27,6 @@ public:
         bool IsInOpenedList;
 
         Node *ParentNode;
-        vector<Node *> NextNodeList; // 用于存入该点的周围可行点
         Node()
         {
             X = 0;
