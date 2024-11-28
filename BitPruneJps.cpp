@@ -83,7 +83,6 @@ void BitPruneJps::FindPath(int beginX, int beginY, int endX, int endY)
             Node nodeTmp = *currentNodePtr; // 临时检索节点，用于当前方向上的检索
             // cout<<"方向："<<(*dirsIt)<<" "<<endl;
             // 返回的跳点组
-            Node jumpNodes[2] = {};
             vector<Node> jumpNodeList;
             if (*(dirsIt) == Up || *(dirsIt) == Down || *(dirsIt) == Left || *(dirsIt) == Right)
             {
@@ -201,43 +200,39 @@ void BitPruneJps::FindPath(int beginX, int beginY, int endX, int endY)
         }
 
         // 获取当前节点即将要搜寻的方向，jumpDirs
-        jumpDirs = DirectionEnums;
-        DirectionEnum jumpDirNeedRm;
+        jumpDirs.clear();
         int deltaY = currentNodePtr->Y - currentNodePtr->ParentNode->Y;
         int deltaX = currentNodePtr->X - currentNodePtr->ParentNode->X;
         if (0 > deltaY && 0 == deltaX)
-            jumpDirNeedRm = Down;
+            jumpDirs = {Right, RightUp, Up, LeftUp, Left};
         if (0 < deltaY && 0 == deltaX)
         {
-            jumpDirNeedRm = Up;
+            jumpDirs = {Left, LeftDown, Down, RightDown, Right};
         }
         if (0 == deltaY && 0 > deltaX)
         {
-            jumpDirNeedRm = Right;
+            jumpDirs = {Up, LeftUp, Left, LeftDown, Down};
         }
         if (0 == deltaY && 0 < deltaX)
         {
-            jumpDirNeedRm = Left;
+            jumpDirs = {Down, RightDown, Right, RightUp, Up};
         }
         if (0 > deltaY && 0 > deltaX)
         {
-            jumpDirNeedRm = RightDown;
+            jumpDirs = {RightUp, Up, LeftUp, Left, LeftDown};
         }
         if (0 < deltaY && 0 > deltaX)
         {
-            jumpDirNeedRm = RightUp;
+            jumpDirs = {LeftUp, Left, LeftDown, Down, RightDown};
         }
         if (0 > deltaY && 0 < deltaX)
         {
-            jumpDirNeedRm = LeftDown;
+            jumpDirs = {RightDown, Right, RightUp, Up, LeftUp};
         }
         if (0 < deltaY && 0 < deltaX)
         {
-            jumpDirNeedRm = LeftUp;
+            jumpDirs = {LeftDown, Down, RightDown, Right, RightUp};
         }
-        vector<DirectionEnum>::iterator dirIterNeedRm = std::find_if(jumpDirs.begin(), jumpDirs.end(), [jumpDirNeedRm](DirectionEnum dir) -> bool
-                                                                     { return jumpDirNeedRm == dir; });
-        jumpDirs.erase(dirIterNeedRm);
     } // end-寻路-while(1)
 
     // 剪枝路径回溯
